@@ -15,4 +15,8 @@ in
   ".tmux.conf.local" = {
     source = ./config/tmux/conf.local;
   };
+
+  ".config/starship.toml" = {
+    source = ./config/starship/starship.toml;
+  };
 }
