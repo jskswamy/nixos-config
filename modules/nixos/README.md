@@ -1,5 +1,8 @@
+# nixos
+
 ## Layout
-```
+
+```sh
 .
 ├── config             # Config files not written in Nix
 ├── default.nix        # Defines module, system-level config,
