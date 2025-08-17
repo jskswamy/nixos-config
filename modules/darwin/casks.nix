@@ -2,8 +2,6 @@ _:
 
 [
   # Development Tools
-  #"homebrew/cask/docker"
-  #"visual-studio-code"
   "jupyterlab"
 
   # Terminals
@@ -16,15 +14,13 @@ _:
   "google-cloud-sdk"
 
   # Browsers
-  #"google-chrome"
   "arc"
   "firefox@nightly"
   "zen-browser"
+  "google-chrome"
 
   # Communication Tools
-  # "notion"
-  # "slack"
-  # "telegram"
+  "notion"
   "discord"
   "keybase"
   "zoom"
@@ -45,22 +41,19 @@ _:
   "tailscale"
 
   # Security & Privacy
-  # "1password"
-  "veracrypt"
-  "yubico-yubikey-manager"
+  "1password"
+  "yubico-authenticator"
 
   # File Sync & Storage
   "google-drive"
 
   # Utilities
   # "rectangle"
-  # "syncthing"
+  "syncthing"
   "appcleaner"
   "karabiner-elements"
 
   # Imaging & Media
   "canon-eos-utility"
-  # "spotify"
-  # "vlc"
-
+  "spotify"
 ]
