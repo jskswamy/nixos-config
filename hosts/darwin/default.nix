@@ -35,6 +35,18 @@ let user = "subramk"; in
   environment.systemPackages = with pkgs; [
   ] ++ (import ../../modules/shared/packages.nix { inherit pkgs; });
 
+  # Install fonts system-wide on macOS (for Alacritty and others)
+  fonts = {
+    packages = with pkgs; [
+      meslo-lgs-nf
+      jetbrains-mono
+      noto-fonts
+      noto-fonts-emoji
+      dejavu_fonts
+      font-awesome
+    ];
+  };
+
   system = {
     checks.verifyNixPath = false;
     primaryUser = user;
