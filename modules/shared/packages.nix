@@ -28,6 +28,11 @@ with pkgs; [
   goreleaser
   graphviz
   heroku
+  (
+    google-cloud-sdk.withExtraComponents ( with google-cloud-sdk.components; [
+      gke-gcloud-auth-plugin
+    ])
+  )
 
   # Editors & IDEs
   lunarvim

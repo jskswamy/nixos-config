@@ -9,10 +9,6 @@ _:
   "msty"
   "warp"
 
-  # Cloud & SDKs
-  "gcloud-cli"
-  "google-cloud-sdk"
-
   # Browsers
   "arc"
   "firefox@nightly"
