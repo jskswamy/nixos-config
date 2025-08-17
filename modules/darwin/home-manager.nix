@@ -22,7 +22,11 @@ in
   homebrew = {
     enable = true;
     casks = pkgs.callPackage ./casks.nix {};
-    # onActivation.cleanup = "uninstall";
+    onActivation = {
+      cleanup = "uninstall";
+      upgrade = true;
+      autoUpdate = true;
+    };
 
     # These app IDs are from using the mas CLI app
     # mas = mac app store
