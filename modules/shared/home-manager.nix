@@ -280,11 +280,14 @@ let name = "Krishnaswamy Subramanian";
       };
 
       window = {
-        opacity = 1.0;
+        opacity = 0.9;
         padding = {
           x = 24;
           y = 24;
         };
+        dynamic_padding = true;
+        decorations = "Buttonless";
+        blur = true;
       };
 
       font = {
@@ -296,6 +299,10 @@ let name = "Krishnaswamy Subramanian";
           (lib.mkIf pkgs.stdenv.hostPlatform.isLinux 10)
           (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin 14)
         ];
+      };
+
+      general = {
+        live_config_reload = true;
       };
 
       colors = {

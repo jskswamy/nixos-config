@@ -152,5 +152,4 @@ with pkgs; [
   watch
   wget
   zip
-
 ]
