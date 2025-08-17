@@ -102,7 +102,6 @@ in
       { path = "${pkgs.alacritty}/Applications/Alacritty.app/"; }
       { path = "/System/Applications/Music.app/"; }
       { path = "/System/Applications/Photos.app/"; }
-      { path = "/System/Applications/Photo Booth.app/"; }
       { path = "/System/Applications/System Settings.app/"; }
       {
         path = "${config.users.users.${user}.home}/Downloads";
