@@ -2,7 +2,7 @@ _:
 
 [
   # Development Tools
-  "jupyterlab"
+  "jupyterlab-app"
 
   # Terminals
   "ghostty"
@@ -12,7 +12,7 @@ _:
   # Browsers
   "arc"
   "firefox@nightly"
-  "zen-browser"
+  "zen"
   "google-chrome"
 
   # Communication Tools
@@ -24,7 +24,7 @@ _:
   # AI Tools
   "chatgpt"
   "claude"
-  "ollama"
+  "ollama-app"
 
   # Productivity Tools
   "capacities"
@@ -34,7 +34,7 @@ _:
 
   # Networking & VPN
   "protonvpn"
-  "tailscale"
+  "tailscale-app"
 
   # Security & Privacy
   "1password"
@@ -45,7 +45,7 @@ _:
 
   # Utilities
   # "rectangle"
-  "syncthing"
+  "syncthing-app"
   "appcleaner"
   "karabiner-elements"
 
