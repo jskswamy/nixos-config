@@ -2,7 +2,7 @@
 let
    ohMyTmux = pkgs.fetchFromGitHub {
       owner = "gpakosz";
-      repo = "oh-my-tmux";
+      repo = ".tmux";
       rev = "master";
       sha256 = "sha256-ynbmBELDhuFxXWExcOuy73uumsZanB8rAvK3/lalHQ0=";
     };
