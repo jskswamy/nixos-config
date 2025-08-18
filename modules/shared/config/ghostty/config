@@ -1,0 +1,50 @@
+# display configuration
+theme = "ayu"
+
+# font configuration
+font-family = "MesloLGS NF"
+font-size = 14
+font-thicken = true
+bold-is-bright = true
+
+# behavior
+confirm-close-surface = false
+copy-on-select = clipboard
+unfocused-split-opacity = 0.7
+background-opacity = 0.95
+background-blur-radius = 20
+cursor-style-blink = true
+maximize = true
+
+# shell related tweaks
+shell-integration = "fish"
+shell-integration-features = "cursor,title"
+
+# macos specific tweaks
+macos-titlebar-style = "tabs"
+macos-option-as-alt = true
+macos-auto-secure-input = true
+macos-titlebar-proxy-icon = visible
+
+# splits
+keybind = ctrl+g>shift+-=new_split:right
+keybind = ctrl+g>-=new_split:down
+
+# navigation
+keybind = ctrl+g>h=goto_split:left
+keybind = ctrl+g>j=goto_split:bottom
+keybind = ctrl+g>k=goto_split:top
+keybind = ctrl+g>l=goto_split:right
+keybind = ctrl+g>tab=goto_split:previous
+keybind = ctrl+g>shift+tab=goto_split:next
+keybind = ctrl+g>n=toggle_quick_terminal
+
+# size
+keybind = ctrl+g>0=equalize_splits
+keybind = ctrl+g>z=toggle_split_zoom
+
+# close
+keybind = ctrl+g>x=close_surface
+
+# working directory
+window-inherit-working-directory = true

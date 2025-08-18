@@ -27,4 +27,8 @@ in
   ".config/pet/snippet.toml" = {
     source = ./config/pet/snippet.toml;
   };
+
+  ".config/ghostty/config" = {
+    source = ./config/ghostty/config;
+  };
 }
