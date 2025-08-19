@@ -144,12 +144,14 @@ with pkgs; [
   httpie
   jc
   jq
+  nix-prefetch-git
   pet
   pika
   ripgrep
   shfmt
   silver-searcher
   skim
+  stow
   tldr
   tree
   unrar
