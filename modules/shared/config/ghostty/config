@@ -1,5 +1,5 @@
 # display configuration
-theme = "ayu"
+theme = "Aura"
 
 # font configuration
 font-family = "MesloLGS NF"
@@ -11,7 +11,7 @@ bold-is-bright = true
 confirm-close-surface = false
 copy-on-select = clipboard
 unfocused-split-opacity = 0.7
-background-opacity = 0.90
+background-opacity = 1.0
 background-blur-radius = 20
 cursor-style-blink = true
 maximize = true
@@ -48,3 +48,8 @@ keybind = ctrl+g>x=close_surface
 
 # working directory
 window-inherit-working-directory = true
+
+# window styling
+window-decoration = none
+window-padding-x = 24,24
+window-padding-y = 24,24

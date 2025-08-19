@@ -1,11 +1,17 @@
 { pkgs, config, ... }:
 let
-   ohMyTmux = pkgs.fetchFromGitHub {
-      owner = "gpakosz";
-      repo = ".tmux";
-      rev = "master";
-      sha256 = "sha256-ynbmBELDhuFxXWExcOuy73uumsZanB8rAvK3/lalHQ0=";
-    };
+  ohMyTmux = pkgs.fetchFromGitHub {
+    owner = "gpakosz";
+    repo = ".tmux";
+    rev = "master";
+    sha256 = "sha256-ynbmBELDhuFxXWExcOuy73uumsZanB8rAvK3/lalHQ0=";
+  };
+  alacrittyTheme = pkgs.fetchFromGitHub {
+    owner = "alacritty";
+    repo = "alacritty-theme";
+    rev = "master";
+    sha256 = "sha256-R7OdOSGhT0ag0HOfGaCklxo2py1qhSFhapkgTNwzRC4=";
+  };
 in
 {
   ".tmux.conf" = {
@@ -30,5 +36,10 @@ in
 
   ".config/ghostty/config" = {
     source = ./config/ghostty/config;
+  };
+
+  ".config/alacritty/themes" = {
+    source = "${alacrittyTheme}/themes";
+    recursive = true;
   };
 }
