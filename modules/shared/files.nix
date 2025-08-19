@@ -42,4 +42,8 @@ in
     source = "${alacrittyTheme}/themes";
     recursive = true;
   };
+
+  ".config/lvim/config.lua" = {
+    source = ./config/lvim/config.lua;
+  };
 }
