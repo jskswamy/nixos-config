@@ -1,8 +1,10 @@
 { config, pkgs, lib, ... }:
 
-let name = "Krishnaswamy Subramanian";
-    user = "subramk";
-    email = "jskswamy@gmail.com"; in
+let
+  name = "Krishnaswamy Subramanian";
+  user = "subramk";
+  email = "jskswamy@gmail.com";
+in
 {
   # Shared shell configuration
   zsh = {
@@ -153,7 +155,7 @@ let name = "Krishnaswamy Subramanian";
     extraConfig = {
       init.defaultBranch = "main";
       core = {
-	    editor = "vim";
+        editor = "vim";
         autocrlf = "input";
       };
       pull.rebase = true;
@@ -269,7 +271,7 @@ let name = "Krishnaswamy Subramanian";
 
       let g:airline_theme='bubblegum'
       let g:airline_powerline_fonts = 1
-      '';
+    '';
   };
 
   alacritty = {
