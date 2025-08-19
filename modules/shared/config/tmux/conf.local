@@ -86,7 +86,7 @@ tmux_conf_24b_colour=auto
 tmux_conf_theme=enabled
 
 # default theme
-tmux_conf_theme_colour_1="#000008"    # dark gray
+tmux_conf_theme_colour_1="#15141b"    # dark gray
 tmux_conf_theme_colour_2="#303030"    # gray
 tmux_conf_theme_colour_3="#8a8a8a"    # light gray
 tmux_conf_theme_colour_4="#00afff"    # light blue
@@ -99,8 +99,8 @@ tmux_conf_theme_colour_10="#ff00af"   # pink
 tmux_conf_theme_colour_11="#5fff00"   # green
 tmux_conf_theme_colour_12="#8a8a8a"   # light gray
 tmux_conf_theme_colour_13="#e4e4e4"   # white
-tmux_conf_theme_colour_14="#000008"   # dark gray
-tmux_conf_theme_colour_15="#000008"   # dark gray
+tmux_conf_theme_colour_14="#15141b"   # dark gray
+tmux_conf_theme_colour_15="#15141b"   # dark gray
 tmux_conf_theme_colour_16="#d70000"   # red
 tmux_conf_theme_colour_17="#e4e4e4"   # white
 
