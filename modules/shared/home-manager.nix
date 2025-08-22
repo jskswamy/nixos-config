@@ -216,7 +216,7 @@ in
       let g:airline_powerline_fonts = 1
 
       "" Local keys and such
-      let mapleader="," 
+      let mapleader=","
       let maplocalleader=" "
 
       "" Change cursor on mode
