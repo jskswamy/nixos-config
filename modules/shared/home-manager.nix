@@ -118,8 +118,8 @@ in
 
       # Editor (kept as vim per your preference)
       set -gx ALTERNATE_EDITOR ""
-      set -gx EDITOR "vim"
-      set -gx VISUAL "vim"
+      set -gx EDITOR "nvim"
+      set -gx VISUAL "nvim"
 
       # Interactive-only hooks and tweaks
       if status --is-interactive
