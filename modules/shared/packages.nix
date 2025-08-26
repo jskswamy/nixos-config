@@ -129,35 +129,42 @@ with pkgs; [
   spotify
 
   # CLI Utilities
-  aria2
-  bash-completion
-  bat
+  # File Management
   coreutils
-  crush
-  dua
   eza
-  fd
-  fpp
-  fzf
-  glow
-  gum
-  httpie
-  jc
-  jq
   nnn
-  nix-prefetch-git
-  pet
-  pika
-  ripgrep
-  shfmt
-  silver-searcher
-  skim
   stow
-  tldr
   tree
   unrar
   unzip
+  zip
+
+  # Searching & Filtering
+  fd
+  fzf
+  jc
+  jq
+  ripgrep
+  silver-searcher
+  skim
+
+  # System & Tools
+  aria2
+  bash-completion
+  crush
+  dua
+  nix-prefetch-git
+  pet
+  pika
+  shfmt
+  tldr
   watch
   wget
-  zip
+
+  # Text & Output
+  bat
+  fpp
+  glow
+  gum
+  httpie
 ]
