@@ -69,6 +69,9 @@ in
       # Health & Wellness
       "endel focus relax sleep" = 1346247457;
 
+      # Browser Utilities
+      "OLW" = 1529988877;
+
       # Network & VPN
       # "wireguard" = 1451685025;
     };
