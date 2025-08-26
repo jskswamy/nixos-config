@@ -1,13 +1,8 @@
 _:
 
 [
-  # Development Tools
-  "jupyterlab-app"
-
   # Terminals
   "ghostty"
-  "msty"
-  "warp"
 
   # Browsers
   "arc"
