@@ -2,12 +2,12 @@
 
 - **Enter Dev Shell**: `nix develop`
 - **Run Apps**: `nix run .#<app-name>` (e.g., `nix run .#apply`)
-- **Build Darwin Config**: `nix build .#darwinConfigurations.<system>.system` (e.g., `aarch64-darwin`)
-- **Apply Darwin Config**: `result/sw/bin/darwin-rebuild switch --flake .`
-- **Apply NixOS Config**: `nixos-rebuild switch --flake .`
+- **Build Config**: `nix run .#build`
+- **Build and Switch Config**: `nix run .#build-switch`
 - **Format Code**: `nix run nixpkgs#nixpkgs-fmt -- .` (or uncomment `nixfmt` in `lefthook.yml`)
 - **Lint Code**: `nix run nixpkgs#statix -- check .` and `nix run nixpkgs#deadnix -- .` (or uncomment `statix` and `deadnix` in `lefthook.yml`)
 - **Check for Secrets**: `nix run nixpkgs#gitleaks -- detect`
+- **Update Flakes**: `nix flake update`
 
 ## Code Style Guidelines
 
