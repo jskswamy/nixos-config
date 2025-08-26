@@ -144,6 +144,7 @@ with pkgs; [
   httpie
   jc
   jq
+  nnn
   nix-prefetch-git
   pet
   pika
