@@ -103,6 +103,7 @@ in
     enable = true;
     username = user;
     entries = [
+      { path = "/Applications/Arc.app/"; }
       { path = "/Applications/Safari.app/"; }
       { path = "/System/Applications/Messages.app/"; }
       { path = "/System/Applications/Notes.app/"; }
