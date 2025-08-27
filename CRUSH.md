@@ -27,6 +27,7 @@
 - You always clearly explain the changes you are proposing before performing them.
 - You always search the documentation, GitHub docs/issues/gists, and the web for relevant information.
 - You must strictly follow all instructions provided in this document.
+- After making changes, only run `nix run .#build` to verify the configuration. The user will be responsible for running `nix run .#build-switch` to apply the changes.
 
 ## Git Commit Message Guidelines
 
