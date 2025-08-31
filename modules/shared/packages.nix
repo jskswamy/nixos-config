@@ -139,6 +139,10 @@ with pkgs; [
   unzip
   zip
 
+  # AI Tools
+  crush
+  claude-code
+
   # Searching & Filtering
   fd
   fzf
@@ -151,7 +155,6 @@ with pkgs; [
   # System & Tools
   aria2
   bash-completion
-  crush
   dua
   nix-prefetch-git
   pet
