@@ -83,5 +83,20 @@ let user = "subramk"; in
         TrackpadThreeFingerDrag = true;
       };
     };
+
+    defaults.CustomUserPreferences = {
+      "com.apple.AppleMultitouchTrackpad" = {
+        TrackpadThreeFingerVertSwipeGesture = 2;
+        TrackpadTwoFingerFromRightEdgeSwipeGesture = 3;
+        TrackpadThreeFingerHorizSwipeGesture = 2;
+        TrackpadFourFingerVertSwipeGesture = 2;
+      };
+      "com.apple.driver.AppleBluetoothMultitouch.trackpad" = {
+        TrackpadThreeFingerVertSwipeGesture = 2;
+        TrackpadTwoFingerFromRightEdgeSwipeGesture = 3;
+        TrackpadThreeFingerHorizSwipeGesture = 2;
+        TrackpadFourFingerVertSwipeGesture = 2;
+      };
+    };
   };
 }
