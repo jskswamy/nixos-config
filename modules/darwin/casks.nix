@@ -27,7 +27,6 @@ _:
   "reader"
   "shottr"
   "timing"
-  "hiddenbar"
 
   # Networking & VPN
   "protonvpn"
@@ -39,6 +38,10 @@ _:
 
   # File Sync & Storage
   "google-drive"
+
+  # Development Tools
+  "intellij-idea"
+  "tuple"
 
   # Utilities
   # "rectangle"
