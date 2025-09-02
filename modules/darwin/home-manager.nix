@@ -71,6 +71,12 @@ in
 
       # Network & VPN
       # "wireguard" = 1451685025;
+
+      # Development & Tools
+      "goodnotes 6" = 1444383602;
+      "slack" = 803453959;
+      "testflight" = 899247664;
+      "xcode" = 497799835;
     };
   };
 
