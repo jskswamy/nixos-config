@@ -47,7 +47,6 @@ in
 
       # Productivity & Utilities
       "barbee hide your menu bar icons" = 1548711022;
-      "dropover easy drag and drop" = 1355679052;
       "jomo" = 1609960918;
       "raycast" = 6738274497;
       "session" = 1521432881;
