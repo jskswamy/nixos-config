@@ -35,6 +35,7 @@ with pkgs; [
   )
 
   # Editors & IDEs
+  code-cursor
   lunarvim
   neovim
   vscode
@@ -122,6 +123,7 @@ with pkgs; [
   btop
   htop
   neofetch
+  wireshark-qt
 
   # Media & GUI
   ffmpeg
@@ -139,9 +141,10 @@ with pkgs; [
   unzip
   zip
 
-  # AI Tools
-  crush
+  # AI CLI Tools & Agents
   claude-code
+  cursor-cli
+  crush
   gemini-cli
 
   # Searching & Filtering
