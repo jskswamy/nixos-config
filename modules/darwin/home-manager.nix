@@ -106,6 +106,58 @@ in
         '';
       };
 
+      # Configure auto-start applications via launchd
+      launchd.agents = {
+        raycast = {
+          enable = true;
+          config = {
+            ProgramArguments = [ "/Applications/Raycast.app/Contents/MacOS/Raycast" ];
+            RunAtLoad = true;
+            KeepAlive = false;
+          };
+        };
+        things3 = {
+          enable = true;
+          config = {
+            ProgramArguments = [ "/Applications/Things3.app/Contents/MacOS/Things3" ];
+            RunAtLoad = true;
+            KeepAlive = false;
+          };
+        };
+        timing = {
+          enable = true;
+          config = {
+            ProgramArguments = [ "/Applications/Timing.app/Contents/MacOS/Timing" ];
+            RunAtLoad = true;
+            KeepAlive = false;
+          };
+        };
+        jomo = {
+          enable = true;
+          config = {
+            ProgramArguments = [ "/Applications/Jomo.app/Contents/MacOS/Jomo" ];
+            RunAtLoad = true;
+            KeepAlive = false;
+          };
+        };
+        keybase = {
+          enable = true;
+          config = {
+            ProgramArguments = [ "/Applications/Keybase.app/Contents/SharedSupport/bin/keybase" "launchd" "forservice" ];
+            RunAtLoad = true;
+            KeepAlive = true;  # Keybase service should stay running
+          };
+        };
+        google-drive = {
+          enable = true;
+          config = {
+            ProgramArguments = [ "/Applications/Google Drive.app/Contents/MacOS/Google Drive" ];
+            RunAtLoad = true;
+            KeepAlive = false;
+          };
+        };
+      };
+
       # Marked broken Oct 20, 2022 check later to remove this
       # https://github.com/nix-community/home-manager/issues/3344
       manual.manpages.enable = false;
