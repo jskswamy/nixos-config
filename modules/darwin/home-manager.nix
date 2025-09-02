@@ -93,6 +93,14 @@ in
       };
       programs = { } // import ../shared/home-manager.nix { inherit config pkgs lib; };
 
+      services.gpg-agent = {
+        enable = true;
+        enableSshSupport = true;
+        enableFishIntegration = true;
+        defaultCacheTtl = 86400;
+        maxCacheTtl = 86400;
+      };
+
       # Marked broken Oct 20, 2022 check later to remove this
       # https://github.com/nix-community/home-manager/issues/3344
       manual.manpages.enable = false;
