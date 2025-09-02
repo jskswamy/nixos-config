@@ -50,7 +50,7 @@ in
       "jomo" = 1609960918;
       "raycast" = 6738274497;
       "session" = 1521432881;
-      "things3" = 904237743;
+      "things3" = 904280696;
 
       # Communication
       "whatsapp" = 310633997;
