@@ -26,6 +26,7 @@ _:
   "raycast"
   "reader"
   "shottr"
+  "timing"
 
   # Networking & VPN
   "protonvpn"
