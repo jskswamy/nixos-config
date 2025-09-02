@@ -315,6 +315,11 @@ in
 
   gpg = {
     enable = true;
+    settings = {
+      no-greeting = true;
+      armor = true;
+      throw-keyids = true;
+    };
   };
 
   ssh = {

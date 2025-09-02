@@ -99,6 +99,11 @@ in
         enableFishIntegration = true;
         defaultCacheTtl = 86400;
         maxCacheTtl = 86400;
+        pinentry.package = pkgs.pinentry_mac;
+        extraConfig = ''
+          ttyname $GPG_TTY
+          extra-socket ~/.gnupg/S.gpg-agent.extra
+        '';
       };
 
       # Marked broken Oct 20, 2022 check later to remove this
