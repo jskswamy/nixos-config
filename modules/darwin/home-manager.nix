@@ -46,7 +46,6 @@ in
       "yubico authenticator" = 1497506650;
 
       # Productivity & Utilities
-      "barbee hide your menu bar icons" = 1548711022;
       "jomo" = 1609960918;
       "raycast" = 6738274497;
       "session" = 1521432881;
@@ -69,9 +68,6 @@ in
 
       # Health & Wellness
       "endel focus relax sleep" = 1346247457;
-
-      # Browser Utilities
-      "OLW" = 1529988877;
 
       # Network & VPN
       # "wireguard" = 1451685025;
