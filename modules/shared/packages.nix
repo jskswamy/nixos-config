@@ -142,6 +142,7 @@ with pkgs; [
   # AI Tools
   crush
   claude-code
+  gemini-cli
 
   # Searching & Filtering
   fd
