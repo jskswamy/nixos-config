@@ -27,6 +27,7 @@ _:
   "reader"
   "shottr"
   "timing"
+  "hiddenbar"
 
   # Networking & VPN
   "protonvpn"
