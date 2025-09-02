@@ -112,18 +112,18 @@ in
     enable = true;
     username = user;
     entries = [
-      { path = "/Applications/Arc.app/"; }
       { path = "/Applications/Safari.app/"; }
+      { path = "/Applications/Arc.app/"; }
+      { path = "/Applications/Capacities.app/"; }
       { path = "/System/Applications/Messages.app/"; }
       { path = "/System/Applications/Notes.app/"; }
       { path = "${pkgs.alacritty}/Applications/Alacritty.app/"; }
       { path = "/System/Applications/Music.app/"; }
-      { path = "/System/Applications/Photos.app/"; }
       { path = "/System/Applications/System Settings.app/"; }
       {
         path = "${config.users.users.${user}.home}/Downloads";
         section = "others";
-        options = "--sort name --view grid --display stack";
+        options = "--sort datecreated --view fan --display stack";
       }
     ];
   };
