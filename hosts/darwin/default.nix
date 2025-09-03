@@ -47,6 +47,12 @@ let user = "subramk"; in
     ];
   };
 
+  # Set desktop wallpaper using system activation script
+  system.activationScripts.setWallpaper.text = ''
+    # Set desktop wallpaper for current user
+    /usr/bin/osascript -e "tell application \"Finder\" to set desktop picture to POSIX file \"/Users/${user}/.local/share/wallpapers/red-planet-with-rings.jpg\""
+  '';
+
   system = {
     checks.verifyNixPath = false;
     primaryUser = user;
@@ -82,6 +88,7 @@ let user = "subramk"; in
         Clicking = true;
         TrackpadThreeFingerDrag = true;
       };
+
     };
 
     defaults.CustomUserPreferences = {

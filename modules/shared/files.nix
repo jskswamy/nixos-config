@@ -46,4 +46,13 @@ in
   ".config/lvim/config.lua" = {
     source = ./config/lvim/config.lua;
   };
+
+  # Install wallpapers to user directory
+  ".local/share/wallpapers/red-planet-with-rings.jpg" = {
+    source = ./wallpapers/red-planet-with-rings.jpg;
+  };
+
+  ".local/share/wallpapers/islands-at-sunset.jpg" = {
+    source = ./wallpapers/islands-at-sunset.jpg;
+  };
 }
