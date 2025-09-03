@@ -173,10 +173,11 @@ in
     entries = [
       { path = "/Applications/Safari.app/"; }
       { path = "/Applications/Arc.app/"; }
+      { path = "${pkgs.alacritty}/Applications/Alacritty.app/"; }
       { path = "/Applications/Capacities.app/"; }
+      { path = "/Applications/Things3.app/"; }
       { path = "/System/Applications/Messages.app/"; }
       { path = "/System/Applications/Notes.app/"; }
-      { path = "${pkgs.alacritty}/Applications/Alacritty.app/"; }
       { path = "/System/Applications/Music.app/"; }
       { path = "/System/Applications/System Settings.app/"; }
       {
