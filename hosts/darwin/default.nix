@@ -89,7 +89,6 @@ let user = "subramk"; in
 
       trackpad = {
         Clicking = true;
-        TrackpadThreeFingerDrag = true;
       };
 
     };
