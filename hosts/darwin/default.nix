@@ -35,6 +35,12 @@ let user = "subramk"; in
   programs.fish.enable = true;
   environment.shells = [ pkgs.fish ];
 
+  # Enable GnuPG agent with SSH support
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
+
   environment.systemPackages = with pkgs; [
   ] ++ (import ../../modules/shared/packages.nix { inherit pkgs; });
 
@@ -70,6 +76,10 @@ let user = "subramk"; in
         InitialKeyRepeat = 15; # Values: 120, 94, 68, 35, 25, 15
 
         "com.apple.mouse.tapBehavior" = 1;
+        "com.apple.trackpad.scaling" = 1.0;
+        "com.apple.trackpad.forceClick" = true;
+        AppleEnableMouseSwipeNavigateWithScrolls = true;
+        AppleEnableSwipeNavigateWithScrolls = true;
         "com.apple.sound.beep.volume" = 0.0;
         "com.apple.sound.beep.feedback" = 0;
         _HIHideMenuBar = true;
@@ -89,6 +99,12 @@ let user = "subramk"; in
 
       trackpad = {
         Clicking = true;
+        Dragging = true;
+        TrackpadRightClick = true;
+        ActuationStrength = 0;
+        FirstClickThreshold = 1;
+        SecondClickThreshold = 1;
+        TrackpadThreeFingerTapGesture = 2;
       };
 
     };
