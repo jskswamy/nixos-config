@@ -41,6 +41,7 @@ _:
 
   # Development Tools
   "intellij-idea"
+  "pycharm"
   "tuple"
 
   # Utilities
