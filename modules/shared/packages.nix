@@ -83,7 +83,6 @@ with pkgs; [
   any-nix-shell
   devbox
   direnv
-  lorri
   nixfmt-rfc-style
 
   # Python Tooling
