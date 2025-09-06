@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -e
+
+interactive_search() {
+  local search_args="$*"
+
+  if [ -z "$search_args" ]; then
+    gum style --foreground 214 "Usage: search <pattern> [additional rg options]"
+    exit 1
+  fi
+
+  gum style --foreground 212 --bold "Interactive search with pattern: $search_args"
+  sk --ansi -i -c "rg --color=always $search_args --line-number \"{}\""
+}
+
+main() {
+  interactive_search "$@"
+}
+
+main "$@"
+

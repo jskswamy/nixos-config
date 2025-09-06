@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -e
+
+fit_output() {
+  local cols
+  cols=$(tput cols)
+
+  if [ -z "$cols" ] || [ "$cols" -eq 0 ]; then
+    gum style --foreground 196 "Error: Unable to determine terminal width"
+    exit 1
+  fi
+
+  cut -c -"$cols"
+}
+
+main() {
+  if [ -t 0 ]; then
+    gum style --foreground 214 "Usage: command | fit"
+    gum style --foreground 250 "Fits output to terminal width ($cols columns)"
+    exit 1
+  fi
+
+  fit_output
+}
+
+main "$@"
+

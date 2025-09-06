@@ -5,6 +5,9 @@ let
   xdg_configHome = "/home/${user}/.config";
   shared-programs = import ../shared/home-manager.nix { inherit config pkgs lib; };
   shared-files = import ../shared/files.nix { inherit config pkgs; };
+  shared-scripts = import ../shared/scripts.nix;
+  nixos-files = import ./files.nix { inherit user; };
+  nixos-scripts = import ./scripts.nix { inherit user; };
 
   polybar-user_modules = builtins.readFile (pkgs.replaceVars ./config/polybar/user_modules.ini {
     packages = "${xdg_configHome}/polybar/bin/check-nixos-updates.sh";
@@ -30,7 +33,7 @@ in
     username = "${user}";
     homeDirectory = "/home/${user}";
     packages = pkgs.callPackage ./packages.nix { };
-    file = shared-files // import ./files.nix { inherit user; };
+    file = shared-files // shared-scripts // nixos-files // nixos-scripts;
     stateVersion = "21.05";
   };
 

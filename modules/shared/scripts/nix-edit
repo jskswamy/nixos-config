@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -e
+
+open_nix_config() {
+  local config_dir="$HOME/nixos-config"
+  local editor="${EDITOR:-nvim}"
+
+  if [ ! -d "$config_dir" ]; then
+    gum style --foreground 196 "Error: nixos-config directory not found at $config_dir"
+    exit 1
+  fi
+
+  gum style --foreground 212 --bold "Opening nixos-config in $editor..."
+
+  if command -v "$editor" >/dev/null 2>&1; then
+    exec "$editor" "$config_dir"
+  else
+    gum style --foreground 196 "Error: Editor '$editor' not found"
+    exit 1
+  fi
+}
+
+main() {
+  open_nix_config
+}
+
+main "$@"
+

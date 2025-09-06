@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+set -e
+
+optimize_nix_store() {
+  gum style --foreground 212 --bold "Optimizing nix store..."
+  if gum spin --spinner dot --title "Running nix-store --optimize" -- nix-store --optimize --verbose; then
+    gum style --foreground 46 "✓ Nix store optimized"
+  else
+    gum style --foreground 196 "✗ Store optimization failed"
+    exit 1
+  fi
+}
+
+garbage_collect() {
+  gum style --foreground 212 --bold "Running garbage collection..."
+  if gum spin --spinner dot --title "Running nix-store --gc" -- nix-store --gc; then
+    gum style --foreground 46 "✓ Garbage collection completed"
+  else
+    gum style --foreground 196 "✗ Garbage collection failed"
+    exit 1
+  fi
+}
+
+get_cleanup_choice() {
+  gum style --foreground 212 --bold "Select nix cleanup operation:"
+
+  local options=(
+    "both:Optimize store and garbage collect (recommended)"
+    "optimize:Optimize nix store only"
+    "gc:Garbage collect only"
+  )
+
+  local selected
+  selected=$(printf "%s\n" "${options[@]}" | gum choose)
+  echo "$selected" | cut -d':' -f1
+}
+
+main() {
+  local choice
+  choice=$(get_cleanup_choice)
+
+  case "$choice" in
+  "both")
+    gum style --foreground 212 --bold "Performing complete nix cleanup..."
+    optimize_nix_store
+    garbage_collect
+    gum style --foreground 46 "✓ Complete nix cleanup finished!"
+    ;;
+  "optimize")
+    optimize_nix_store
+    ;;
+  "gc")
+    garbage_collect
+    ;;
+  *)
+    gum style --foreground 196 "Invalid choice"
+    exit 1
+    ;;
+  esac
+}
+
+main "$@"
+

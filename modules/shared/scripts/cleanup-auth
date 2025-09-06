@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -e
+
+logout_keybase() {
+  if command -v keybase >/dev/null 2>&1; then
+    gum spin --spinner dot --title "Logging out of Keybase..." -- keybase logout
+    gum style --foreground 46 "✓ Keybase logout completed"
+  else
+    gum style --foreground 214 "Keybase not found, skipping logout"
+  fi
+}
+
+kill_ssh_agent() {
+  if killall ssh-agent 2>/dev/null; then
+    gum style --foreground 46 "✓ SSH agent terminated"
+  else
+    gum style --foreground 214 "No SSH agent running"
+  fi
+}
+
+main() {
+  gum style --foreground 212 --bold "Cleaning up authentication sessions..."
+
+  logout_keybase
+  kill_ssh_agent
+
+  gum style --foreground 46 "✓ Authentication cleanup completed!"
+}
+
+main "$@"
+

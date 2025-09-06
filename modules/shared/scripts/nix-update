@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -e
+
+update_flake() {
+  local config_dir="$HOME/nixos-config"
+
+  if [ ! -d "$config_dir" ]; then
+    gum style --foreground 196 "Error: nixos-config directory not found at $config_dir"
+    exit 1
+  fi
+
+  gum style --foreground 212 --bold "Updating nix flake inputs..."
+  if gum spin --spinner dot --title "Running nix flake update..." -- nix flake update --flake "$config_dir"; then
+    gum style --foreground 46 "✓ Flake inputs updated successfully!"
+
+    if gum confirm "Build configuration with updated inputs?"; then
+      cd "$config_dir"
+      gum spin --spinner dot --title "Building updated configuration..." -- nix run .#build
+      gum style --foreground 46 "✓ Configuration built with updated inputs!"
+    fi
+  else
+    gum style --foreground 196 "✗ Flake update failed"
+    exit 1
+  fi
+}
+
+main() {
+  update_flake
+}
+
+main "$@"
+

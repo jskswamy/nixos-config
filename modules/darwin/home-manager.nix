@@ -4,7 +4,9 @@ let
   user = "subramk";
   # Define the content of your file as a derivation
   sharedFiles = import ../shared/files.nix { inherit config pkgs; };
+  sharedScripts = import ../shared/scripts.nix;
   additionalFiles = import ./files.nix { inherit user config pkgs; };
+  additionalScripts = import ./scripts.nix { inherit user config pkgs; };
 in
 {
   imports = [
@@ -89,7 +91,9 @@ in
         packages = pkgs.callPackage ./packages.nix { };
         file = lib.mkMerge [
           sharedFiles
+          sharedScripts
           additionalFiles
+          additionalScripts
         ];
         stateVersion = "23.11";
       };

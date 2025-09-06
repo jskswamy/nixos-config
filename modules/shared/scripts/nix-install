@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -e
+
+build_and_switch() {
+  local config_dir="$HOME/nixos-config"
+
+  if [ ! -d "$config_dir" ]; then
+    gum style --foreground 196 "Error: nixos-config directory not found at $config_dir"
+    exit 1
+  fi
+
+  cd "$config_dir"
+  gum style --foreground 212 --bold "Building and switching to new nix configuration..."
+  if gum spin --spinner dot --title "Running nix build-switch..." -- nix run .#build-switch; then
+    gum style --foreground 46 "✓ Successfully built and switched to new configuration!"
+  else
+    gum style --foreground 196 "✗ Build-switch failed"
+    exit 1
+  fi
+}
+
+main() {
+  build_and_switch
+}
+
+main "$@"
+
