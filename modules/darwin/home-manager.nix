@@ -114,14 +114,6 @@ in
 
       # Configure auto-start applications via launchd
       launchd.agents = {
-        raycast = {
-          enable = true;
-          config = {
-            ProgramArguments = [ "/Applications/Raycast.app/Contents/MacOS/Raycast" ];
-            RunAtLoad = true;
-            KeepAlive = false;
-          };
-        };
         things3 = {
           enable = true;
           config = {
