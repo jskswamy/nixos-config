@@ -126,6 +126,18 @@ let user = "subramk"; in
         TrackpadThreeFingerHorizSwipeGesture = 2;
         TrackpadFourFingerVertSwipeGesture = 2;
       };
+      "pbs" = {
+        NSServicesStatus = {
+          "com.apple.Terminal - Search man Page Index in Terminal - searchManPages" = {
+            enabled_context_menu = false;
+            enabled_services_menu = false;
+            presentation_modes = {
+              ContextMenu = false;
+              ServicesMenu = false;
+            };
+          };
+        };
+      };
     };
   };
 }
