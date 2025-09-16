@@ -122,6 +122,7 @@ with pkgs; [
   btop
   htop
   neofetch
+  mitmproxy
   wireshark-qt
 
   # Media & GUI
