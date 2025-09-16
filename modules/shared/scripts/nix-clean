@@ -1,63 +1,113 @@
 #!/usr/bin/env bash
 set -e
 
+show_help() {
+  cat <<EOF
+Usage: nix-clean [OPTION]
+Clean up nix store with optimization and garbage collection.
+
+Options:
+  -h, --help       Show this help message
+  -o, --optimize   Optimize nix store only
+  -g, --gc         Garbage collect only
+  -a, --all        Optimize store and garbage collect (default)
+
+If no option is provided, the script will run in interactive mode.
+EOF
+}
+
 optimize_nix_store() {
-  gum style --foreground 212 --bold "Optimizing nix store..."
-  if gum spin --spinner dot --title "Running nix-store --optimize" -- nix-store --optimize --verbose; then
-    gum style --foreground 46 "✓ Nix store optimized"
+  gum style --foreground 212 --bold "Optimizing nix store..." 2>/dev/null || echo "Optimizing nix store..."
+  if nix-store --optimize --verbose; then
+    gum style --foreground 46 "✓ Nix store optimized" 2>/dev/null || echo "✓ Nix store optimized"
   else
-    gum style --foreground 196 "✗ Store optimization failed"
+    gum style --foreground 196 "✗ Store optimization failed" 2>/dev/null || echo "✗ Store optimization failed"
     exit 1
   fi
 }
 
 garbage_collect() {
-  gum style --foreground 212 --bold "Running garbage collection..."
-  if gum spin --spinner dot --title "Running nix-store --gc" -- nix-store --gc; then
-    gum style --foreground 46 "✓ Garbage collection completed"
+  gum style --foreground 212 --bold "Running garbage collection..." 2>/dev/null || echo "Running garbage collection..."
+  if nix-store --gc; then
+    gum style --foreground 46 "✓ Garbage collection completed" 2>/dev/null || echo "✓ Garbage collection completed"
   else
-    gum style --foreground 196 "✗ Garbage collection failed"
+    gum style --foreground 196 "✗ Garbage collection failed" 2>/dev/null || echo "✗ Garbage collection failed"
     exit 1
   fi
 }
 
 get_cleanup_choice() {
-  gum style --foreground 212 --bold "Select nix cleanup operation:"
+  # Check if we have a TTY for interactive mode
+  if [[ -t 0 ]] && command -v gum >/dev/null 2>&1; then
+    gum style --foreground 212 --bold "Select nix cleanup operation:" >&2
 
-  local options=(
-    "both:Optimize store and garbage collect (recommended)"
-    "optimize:Optimize nix store only"
-    "gc:Garbage collect only"
-  )
+    local options=(
+      "both:Optimize store and garbage collect (recommended)"
+      "optimize:Optimize nix store only"
+      "gc:Garbage collect only"
+    )
 
-  local selected
-  selected=$(printf "%s\n" "${options[@]}" | gum choose)
-  echo "$selected" | cut -d':' -f1
+    local selected
+    selected=$(printf "%s\n" "${options[@]}" | gum choose)
+    echo "$selected" | cut -d':' -f1
+  else
+    # Default to 'both' in non-interactive mode
+    echo "both"
+  fi
 }
 
 main() {
-  local choice
-  choice=$(get_cleanup_choice)
+  # Parse command line arguments
+  case "${1:-}" in
+  -h | --help)
+    show_help
+    exit 0
+    ;;
+  -o | --optimize)
+    optimize_nix_store
+    exit 0
+    ;;
+  -g | --gc)
+    garbage_collect
+    exit 0
+    ;;
+  -a | --all)
+    gum style --foreground 212 --bold "Performing complete nix cleanup..." 2>/dev/null || echo "Performing complete nix cleanup..."
+    optimize_nix_store
+    garbage_collect
+    gum style --foreground 46 "✓ Complete nix cleanup finished!" 2>/dev/null || echo "✓ Complete nix cleanup finished!"
+    exit 0
+    ;;
+  "")
+    # No arguments provided, use interactive or default mode
+    local choice
+    choice=$(get_cleanup_choice)
 
-  case "$choice" in
-  "both")
-    gum style --foreground 212 --bold "Performing complete nix cleanup..."
-    optimize_nix_store
-    garbage_collect
-    gum style --foreground 46 "✓ Complete nix cleanup finished!"
-    ;;
-  "optimize")
-    optimize_nix_store
-    ;;
-  "gc")
-    garbage_collect
+    case "$choice" in
+    "both")
+      gum style --foreground 212 --bold "Performing complete nix cleanup..." 2>/dev/null || echo "Performing complete nix cleanup..."
+      optimize_nix_store
+      garbage_collect
+      gum style --foreground 46 "✓ Complete nix cleanup finished!" 2>/dev/null || echo "✓ Complete nix cleanup finished!"
+      ;;
+    "optimize")
+      optimize_nix_store
+      ;;
+    "gc")
+      garbage_collect
+      ;;
+    *)
+      gum style --foreground 196 "Invalid choice" 2>/dev/null || echo "Invalid choice"
+      exit 1
+      ;;
+    esac
     ;;
   *)
-    gum style --foreground 196 "Invalid choice"
+    echo "Unknown option: $1"
+    show_help
     exit 1
     ;;
   esac
 }
 
 main "$@"
-
