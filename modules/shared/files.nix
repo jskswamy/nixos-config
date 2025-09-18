@@ -47,6 +47,11 @@ in
     source = ./config/lvim/config.lua;
   };
 
+  ".config/tmuxp" = {
+    source = ./config/tmuxp;
+    recursive = true;
+  };
+
   # Install wallpapers to user directory
   ".local/share/wallpapers/red-planet-with-rings.jpg" = {
     source = ./wallpapers/red-planet-with-rings.jpg;

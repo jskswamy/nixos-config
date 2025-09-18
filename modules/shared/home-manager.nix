@@ -70,6 +70,7 @@ in
       glow = "glow -p -w (tput cols)";
       cdr = "cd (git rev-parse --show-toplevel)";
       chrome = "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome";
+      hackspace = "tmuxp load -a -y ~/.config/tmuxp/hackspace.yml";
     };
     interactiveShellInit = ''
       # Locale and general environment
