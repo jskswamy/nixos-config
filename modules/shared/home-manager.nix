@@ -298,6 +298,8 @@ in
         dynamic_padding = true;
         decorations = "Buttonless";
         blur = true;
+        # Make Option key send Alt sequences on macOS
+        option_as_alt = "Both";
       };
 
       font = {
@@ -315,6 +317,12 @@ in
         live_config_reload = true;
         import = [
           "~/.config/alacritty/themes/gruvbox_dark.toml"
+        ];
+      };
+
+      keyboard = {
+        bindings = [
+          # Additional key bindings can be added here if needed
         ];
       };
 
