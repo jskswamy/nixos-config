@@ -43,8 +43,9 @@ in
     recursive = true;
   };
 
-  ".config/lvim/config.lua" = {
-    source = ./config/lvim/config.lua;
+  ".config/nvim" = {
+    source = ./config/nvim;
+    recursive = true;
   };
 
   ".config/tmuxp" = {

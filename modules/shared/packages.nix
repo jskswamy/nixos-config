@@ -62,12 +62,11 @@ with pkgs; [
 
   # Languages & Toolchains
   go_1_23
-  golint
-  gopls
   jdk8
   nodejs_24
   python313Packages.nbdime
   rustup
+  terraform  # Required for terraform_fmt formatter
 
   # Mobile Development
   cocoapods
