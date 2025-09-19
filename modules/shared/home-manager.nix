@@ -58,6 +58,12 @@ in
   # Add fish configuration
   fish = {
     enable = true;
+    plugins = [
+      {
+        name = "gruvbox";
+        src = pkgs.fishPlugins.gruvbox.src;
+      }
+    ];
     shellAliases = {
       diff = "difft";
       ls = "eza --icons=always";
@@ -95,7 +101,7 @@ in
       set -gx DOCKER_HOST unix:///Users/${user}/.colima/default/docker.sock
       set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
       set -gx GNUPGHOME "$HOME/.gnupg"
-      set -gx BAT_THEME "Solarized (light)"
+      set -gx BAT_THEME "gruvbox-dark"
       set -gx GOPRIVATE source.golabs.io
       set -gx GPG_TTY (tty)
       set -gx fzf_fd_opts --hidden --exclude=.git --exclude=node_modules
@@ -308,7 +314,7 @@ in
       general = {
         live_config_reload = true;
         import = [
-          "~/.config/alacritty/themes/aura.toml"
+          "~/.config/alacritty/themes/gruvbox_dark.toml"
         ];
       };
 

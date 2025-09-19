@@ -1,0 +1,63 @@
+# Tig configuration with Gruvbox theme
+# Using only verified color areas from official tig documentation
+
+# Basic UI colors (gruvbox inspired)
+color default           white       black
+color cursor            black       yellow      bold
+color status            green       black
+color delimiter         cyan        black
+color date              blue        black
+color mode              cyan        black
+color overflow          red         black
+
+# Header and title colors
+color header            yellow      black       bold
+color title-focus       black       yellow      bold
+color title-blur        white       black
+
+# Main view colors (git history)
+color main-commit       white       black
+color main-tag          magenta     black       bold
+color main-local-tag    magenta     black
+color main-remote       yellow      black
+color main-replace      cyan        black
+color main-tracked      yellow      black
+color main-ref          cyan        black
+color main-head         cyan        black       bold
+
+# Graph commit visualization
+color graph-commit      cyan        black
+
+# Diff colors (for code changes)
+color diff-header       yellow      black       bold
+color diff-index        blue        black
+color diff-chunk        magenta     black       bold
+color diff-add          green       black
+color diff-del          red         black
+color diff-oldmode      yellow      black
+color diff-newmode      yellow      black
+color "copy from "      yellow      black
+color "copy to "        yellow      black
+color diff-similarity   yellow      black
+
+# Tree view colors (file browser)
+color tree.directory    yellow      black       bold
+color tree.file         white       black
+
+# Search highlighting
+color search-result     black       yellow      bold
+
+# Help view colors
+color help-group        blue        black       bold
+color help-action       yellow      black
+
+# Basic settings for better usability
+set wrap-lines = yes
+set tab-size = 2
+set mouse = true
+
+# Key bindings for vim-like navigation
+bind generic g move-first-line
+bind generic G move-last-line
+bind generic <C-f> scroll-page-down
+bind generic <C-b> scroll-page-up

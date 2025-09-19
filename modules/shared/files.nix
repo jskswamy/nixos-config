@@ -53,6 +53,10 @@ in
     recursive = true;
   };
 
+  ".config/tig/config" = {
+    source = ./config/tig/config;
+  };
+
   # Install wallpapers to user directory
   ".local/share/wallpapers/red-planet-with-rings.jpg" = {
     source = ./wallpapers/red-planet-with-rings.jpg;
