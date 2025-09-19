@@ -61,3 +61,8 @@ bind generic g move-first-line
 bind generic G move-last-line
 bind generic <C-f> scroll-page-down
 bind generic <C-b> scroll-page-up
+
+# Copy commit hash to clipboard
+bind main y !@sh -c "echo %(commit) | pbcopy"
+bind diff y !@sh -c "echo %(commit) | pbcopy"
+bind log y !@sh -c "echo %(commit) | pbcopy"
