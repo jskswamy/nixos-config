@@ -387,7 +387,10 @@ tmux_conf_urlscan_options="--compact --dedupe"
 #set -g history-limit 10000
 
 # start with mouse mode enabled
-#set -g mouse on
+set -g mouse on
+
+# prevent tmux from closing when killing last window/session
+set -g detach-on-destroy off
 
 # force Vi mode
 #   really you should export VISUAL or EDITOR environment variable, see manual
