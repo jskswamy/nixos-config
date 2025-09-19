@@ -28,29 +28,33 @@ This is a unified Nix flake configuration that manages both macOS (nix-darwin) a
 ## Common Commands
 
 ### Development Environment
+
 ```bash
 nix develop                           # Enter development shell
 ```
 
 ### Building and Switching
+
 ```bash
 # macOS
 nix run .#build                       # Build configuration only
 nix run .#build-switch                # Build and switch to new configuration
 nix run .#rollback                    # Rollback to previous generation
 
-# NixOS  
+# NixOS
 sudo nixos-rebuild build --flake .#x86_64-linux     # Build only
 sudo nixos-rebuild switch --flake .#x86_64-linux    # Build and switch
 ```
 
 ### Configuration Management
+
 ```bash
 nix run .#apply                       # Apply template personalization (replace %USER%, %EMAIL%, etc.)
 nix flake update                      # Update all flake inputs
 ```
 
 ### Code Quality
+
 ```bash
 # Formatting
 nix run nixpkgs#nixpkgs-fmt -- .      # Format Nix code
@@ -64,6 +68,7 @@ nix run nixpkgs#gitleaks -- detect    # Check for secrets
 ```
 
 ### Git Hooks
+
 ```bash
 nix run nixpkgs#lefthook -- install   # Install pre-commit hooks
 ```
@@ -71,6 +76,7 @@ nix run nixpkgs#lefthook -- install   # Install pre-commit hooks
 ## Configuration Guidelines
 
 ### Code Style
+
 - Use 2-space indentation
 - Follow nixpkgs-fmt formatting
 - Use camelCase for variables and kebab-case for file names
@@ -79,18 +85,21 @@ nix run nixpkgs#lefthook -- install   # Install pre-commit hooks
 - Use `inherit` to bring variables into scope
 
 ### Module Organization
+
 - Place shared configuration in `modules/shared/`
 - Platform-specific overrides go in `modules/darwin/` or `modules/nixos/`
 - Group related functionality into separate module files
 - Use descriptive file names that reflect their purpose
 
 ### Package Management
+
 - Add packages to appropriate package lists:
   - `modules/shared/packages.nix`: Cross-platform CLI tools and development packages
   - `modules/darwin/casks.nix`: macOS GUI applications via Homebrew
   - `modules/darwin/brews.nix`: macOS CLI tools via Homebrew (when not available in nixpkgs)
 
 ### Security Notes
+
 - SSH keys are managed in host configurations
 - Secrets scanning is enabled via gitleaks pre-commit hook
 - Template variables (%USER%, %EMAIL%, etc.) are replaced by the apply script
@@ -98,6 +107,7 @@ nix run nixpkgs#lefthook -- install   # Install pre-commit hooks
 ## Agent Behavior Guidelines
 
 ### Nix Configuration Management
+
 - You are an expert in Nix, nix-darwin, and Home Manager
 - Always follow best practices when writing and managing Nix files
 - Always clearly explain proposed changes before implementing them
@@ -106,6 +116,7 @@ nix run nixpkgs#lefthook -- install   # Install pre-commit hooks
 - The user is responsible for running `nix run .#build-switch` to apply changes
 
 ### Git Commit Guidelines
+
 - Follow the seven rules of great Git commit messages:
   1. Separate subject from body with a blank line
   2. Limit subject line to 50 characters
@@ -127,3 +138,4 @@ nix run nixpkgs#lefthook -- install   # Install pre-commit hooks
 - Platform configurations don't use hostname-based keys by design for simplicity
 - Home Manager manages user dotfiles and programs across both platforms
 - Homebrew integration is handled via nix-homebrew for macOS
+

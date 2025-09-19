@@ -4,6 +4,7 @@ return {
 		"saghen/blink.cmp",
 		opts = {
 			keymap = {
+				preset = "default",
 				-- IntelliJ-style Tab to accept completion
 				["<Tab>"] = { "accept", "fallback" },
 				
@@ -29,36 +30,36 @@ return {
 				["<CR>"] = { "accept", "fallback" },
 			},
 			
-			-- Trigger completion automatically
-			trigger = {
-				completion = {
+			completion = {
+				-- Accept configuration
+				accept = {
+					-- Auto-select first item for Tab completion
+					auto_brackets = {
+						enabled = true,
+					},
+				},
+				
+				-- Menu appearance
+				menu = {
+					-- Show completion menu
+					auto_show = true,
+					draw = {
+						-- Show completion details
+						columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
+					},
+				},
+				
+				-- Documentation window
+				documentation = {
+					auto_show = true,
+					auto_show_delay_ms = 200,
+				},
+				
+				-- Trigger completion automatically
+				trigger = {
 					-- Show completion menu automatically
 					show_on_insert_on_trigger_character = true,
 				},
-			},
-			
-			-- Accept configuration
-			accept = {
-				-- Auto-select first item for Tab completion
-				auto_brackets = {
-					enabled = true,
-				},
-			},
-			
-			-- Menu appearance
-			menu = {
-				-- Show completion menu
-				auto_show = true,
-				draw = {
-					-- Show completion details
-					columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
-				},
-			},
-			
-			-- Documentation window
-			documentation = {
-				auto_show = true,
-				auto_show_delay_ms = 200,
 			},
 		},
 	},
