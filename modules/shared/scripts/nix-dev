@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Conditional nix develop script
+# Runs 'nix develop' if flake.nix exists, otherwise does nothing
+
+if [ -f "flake.nix" ] || [ -f "../flake.nix" ] || [ -f "../../flake.nix" ]; then
+    exec nix develop
+fi

@@ -32,6 +32,11 @@
     executable = true;
   };
 
+  ".local/bin/nix-dev" = {
+    source = ./scripts/nix-dev;
+    executable = true;
+  };
+
   # System utilities
   ".local/bin/search" = {
     source = ./scripts/search;
