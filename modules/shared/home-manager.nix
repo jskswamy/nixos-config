@@ -94,7 +94,6 @@ in
       set -gx FZF_CTRL_T_OPTS "--preview 'bat --color always {} 2>/dev/null or cat -n {} || eza --color always -l --git --git-ignore {} 2>/dev/null || tree -C {} 2>/dev/null | head -200' --select-1 --exit-0"
       set -gx FZF_CTRL_R_OPTS "--sort --exact --preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
       set -gx NIX_IGNORE_SYMLINK_STORE 1
-      set -gx SHELL fish
       set -gx MANPAGER "bat -l man -p"
       set -gx ZELLIJ_AUTO_ATTACH true
       set -gx ZELLIJ_AUTO_EXIT true
