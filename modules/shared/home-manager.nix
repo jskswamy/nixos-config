@@ -95,8 +95,6 @@ in
       set -gx FZF_CTRL_R_OPTS "--sort --exact --preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
       set -gx NIX_IGNORE_SYMLINK_STORE 1
       set -gx MANPAGER "bat -l man -p"
-      set -gx ZELLIJ_AUTO_ATTACH true
-      set -gx ZELLIJ_AUTO_EXIT true
       set -gx DOCKER_HOST unix:///Users/${user}/.colima/default/docker.sock
       set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
       set -gx GNUPGHOME "$HOME/.gnupg"
