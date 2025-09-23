@@ -1,21 +1,20 @@
 return {
-	-- Add Nix language support
+	-- Additional language server configurations
 	{
 		"neovim/nvim-lspconfig",
 		opts = {
 			servers = {
-				-- Nix language server
+				-- Nix language server configuration
 				nil_ls = {
 					settings = {
 						["nil"] = {
 							formatting = {
-								command = { "nixpkgs-fmt" },
+								command = { "alejandra" }, -- Use alejandra formatter from Mason
 							},
 						},
 					},
 				},
-
-				-- Additional language servers
+				-- Additional language servers (Nix is handled by LazyVim extra)
 				bashls = {}, -- Bash/shell scripting
 				dockerls = {}, -- Docker
 				html = {}, -- HTML
@@ -55,6 +54,13 @@ return {
 	-- Mason tool installer for language servers and formatters
 	{
 		"mason-org/mason.nvim",
+		config = function()
+			require("mason").setup({
+				PATH = "append", -- Append Mason's bin to PATH instead of prepending
+				-- Install packages in Mason's data directory (NixOS compatible)
+				install_root_dir = vim.fn.stdpath("data") .. "/mason",
+			})
+		end,
 		opts = {
 			ensure_installed = {
 				-- Language servers
@@ -62,7 +68,6 @@ return {
 				"pyright",
 				"gopls",
 				"terraform-ls",
-				"nil", -- Nix language server
 				"bash-language-server",
 				"yaml-language-server",
 				"dockerfile-language-server",
@@ -76,10 +81,10 @@ return {
 				"ruff", -- Python formatter + linter (replaces black, isort, flake8)
 				"gofumpt", -- Go formatter (stricter than gofmt)
 				"goimports", -- Go imports organizer
-				"nixpkgs-fmt", -- Nix formatter
 				"shfmt", -- Shell script formatter
 				"stylua", -- Lua formatter
 				"prettier", -- Fallback for YAML/Markdown
+				"alejandra", -- Alternative Nix formatter (available in Mason)
 
 				-- Best linters for each language
 				"eslint_d", -- JS/TS linter (fast daemon version)
@@ -90,6 +95,9 @@ return {
 				"yamllint", -- YAML linter
 				"stylelint", -- CSS linter
 				"htmlhint", -- HTML linter
+				
+				-- Note: nil, statix, deadnix, nixpkgs-fmt are installed via system packages
+				-- since they're not available in Mason registry
 			},
 		},
 	},
@@ -129,6 +137,7 @@ return {
 				-- Lua
 				lua = { "stylua" },
 			},
+			-- LazyVim handles format_on_save automatically, so we don't set it here
 		},
 	},
 
@@ -150,14 +159,37 @@ return {
 				yaml = { "yamllint" },
 				css = { "stylelint" },
 				html = { "htmlhint" },
+				nix = { "statix" },
 			},
 		},
 	},
 
-	-- Nix-specific enhancements
+	-- Enhanced Nix support with custom commands
 	{
 		"LnL7/vim-nix",
 		ft = "nix",
+		config = function()
+			-- Add custom Nix commands
+			vim.api.nvim_create_user_command("NixCleanDeadCode", function()
+				vim.cmd("!deadnix --edit %")
+				vim.cmd("checktime")
+			end, { desc = "Remove dead Nix code with deadnix" })
+			
+			vim.api.nvim_create_user_command("NixCheckStatix", function()
+				vim.cmd("!statix check %")
+			end, { desc = "Check Nix file with statix" })
+		end,
+	},
+
+	-- Additional Nix formatting options
+	{
+		"stevearc/conform.nvim",
+		opts = {
+			formatters = {
+				-- nixpkgs-fmt doesn't support --indent flag, remove invalid args
+				nixpkgs_fmt = {},
+			},
+		},
 	},
 
 	-- Biome configuration for modern JS/TS formatting

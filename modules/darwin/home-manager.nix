@@ -96,6 +96,11 @@ in
           additionalScripts
         ];
         stateVersion = "23.11";
+        sessionVariables = {
+          # Fix Rust linking on macOS for Mason builds
+          LIBRARY_PATH = "${pkgs.libiconv}/lib:$LIBRARY_PATH";
+          RUSTFLAGS = "-L ${pkgs.libiconv}/lib $RUSTFLAGS";
+        };
       };
       programs = { } // import ../shared/home-manager.nix { inherit config pkgs lib; };
 

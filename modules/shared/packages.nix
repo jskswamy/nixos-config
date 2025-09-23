@@ -61,11 +61,12 @@ with pkgs; [
   tig
 
   # Languages & Toolchains
+  cargo
   go_1_23
   jdk8
   nodejs_24
   python313Packages.nbdime
-  rustup
+  rustc
   terraform  # Required for terraform_fmt formatter
 
   # Mobile Development
@@ -80,9 +81,10 @@ with pkgs; [
 
   # Nix & Dev Environment
   any-nix-shell
+  deadnix        # Detect unused Nix code (not in Mason)
   devbox
   direnv
-  nixfmt-rfc-style
+  statix         # Nix static analysis (not in Mason)
 
   # Python Tooling
   pipx
