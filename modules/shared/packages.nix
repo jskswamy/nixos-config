@@ -1,5 +1,4 @@
-{ pkgs }:
-
+{pkgs}:
 with pkgs; [
   # AI & LLM Tools
   claude-code
@@ -56,7 +55,6 @@ with pkgs; [
   gitleaks
   gitsign
   lazygit
-  lefthook
   soft-serve
   tig
 
@@ -67,7 +65,7 @@ with pkgs; [
   nodejs_24
   python313Packages.nbdime
   rustc
-  terraform  # Required for terraform_fmt formatter
+  terraform # Required for terraform_fmt formatter
 
   # Mobile Development
   cocoapods
@@ -81,10 +79,10 @@ with pkgs; [
 
   # Nix & Dev Environment
   any-nix-shell
-  deadnix        # Detect unused Nix code (not in Mason)
+  deadnix # Detect unused Nix code (not in Mason)
   devbox
   direnv
-  statix         # Nix static analysis (not in Mason)
+  statix # Nix static analysis (not in Mason)
 
   # Python Tooling
   pipx
