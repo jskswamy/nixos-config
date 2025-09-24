@@ -176,6 +176,7 @@ in
       { path = "/Applications/Safari.app/"; }
       { path = "/Applications/Arc.app/"; }
       { path = "/System/Applications/Mail.app";}
+      { path = "/System/Applications/Calendar.app/";}
       { path = "${pkgs.alacritty}/Applications/Alacritty.app/"; }
       { path = "/Applications/Capacities.app/"; }
       { path = "/Applications/Things3.app/"; }
