@@ -57,13 +57,14 @@
           # Nix formatting only (statix/deadnix check entire repo)
           alejandra.enable = true;
 
-          # Secrets detection (always runs on staged files)
+          # Secrets detection (runs on commit and push - cannot be bypassed)
           gitleaks = {
             enable = true;
             entry = "${pkgs.gitleaks}/bin/gitleaks protect --staged --redact --verbose";
             language = "system";
             pass_filenames = false;
             always_run = true;
+            stages = ["pre-commit" "pre-push"];
           };
 
           # General file checks (using only well-supported hooks)
