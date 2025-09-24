@@ -64,6 +64,7 @@ in
       # Reading & Writing
       "kindle" = 302584613;
       "languagetool" = 1534275760;
+      "lookup english dictionary" = 872564448;
 
       # Home & Automation
       "homeassistant" = 1099568401;
