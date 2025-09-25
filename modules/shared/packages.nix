@@ -67,6 +67,11 @@ with pkgs; [
   rustc
   terraform # Required for terraform_fmt formatter
 
+  # LaTeX & Document Processing
+  pandoc # Universal document converter
+  tectonic # Modern LaTeX engine (for render-markdown)
+  texlive.combined.scheme-medium # LaTeX distribution
+
   # Mobile Development
   cocoapods
 
@@ -82,6 +87,7 @@ with pkgs; [
   deadnix # Detect unused Nix code (not in Mason)
   devbox
   direnv
+  nixpkgs-fmt # Nix formatter (required for conform.nvim)
   statix # Nix static analysis (not in Mason)
 
   # Python Tooling
@@ -126,7 +132,10 @@ with pkgs; [
 
   # Media & GUI
   ffmpeg
+  ghostscript # For PDF rendering in Snacks
+  imagemagick # For image processing in Snacks
   iina
+  mermaid-cli # For Mermaid diagram rendering
   spotify
 
   # CLI Utilities

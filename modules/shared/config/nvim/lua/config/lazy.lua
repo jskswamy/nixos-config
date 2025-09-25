@@ -43,6 +43,7 @@ require("lazy").setup({
 	},
 	install = { colorscheme = { "gruvbox", "habamax" } },
 	checker = { enabled = true }, -- automatically check for plugin updates
+	rocks = { enabled = false }, -- disable luarocks support (not needed)
 	performance = {
 		rtp = {
 			-- disable some rtp plugins
@@ -59,4 +60,3 @@ require("lazy").setup({
 		},
 	},
 })
-

@@ -37,6 +37,7 @@ return {
 				"html",
 				"javascript",
 				"json",
+				"latex", -- For render-markdown LaTeX support
 				"lua",
 				"markdown",
 				"markdown_inline",
@@ -95,7 +96,10 @@ return {
 				"yamllint", -- YAML linter
 				"stylelint", -- CSS linter
 				"htmlhint", -- HTML linter
-				
+
+				-- Additional tools
+				"ast-grep", -- Structural search and replace (for grug-far)
+
 				-- Note: nil, statix, deadnix, nixpkgs-fmt are installed via system packages
 				-- since they're not available in Mason registry
 			},
@@ -174,7 +178,7 @@ return {
 				vim.cmd("!deadnix --edit %")
 				vim.cmd("checktime")
 			end, { desc = "Remove dead Nix code with deadnix" })
-			
+
 			vim.api.nvim_create_user_command("NixCheckStatix", function()
 				vim.cmd("!statix check %")
 			end, { desc = "Check Nix file with statix" })
@@ -206,4 +210,3 @@ return {
 		},
 	},
 }
-
