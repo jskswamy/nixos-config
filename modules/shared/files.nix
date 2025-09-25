@@ -1,5 +1,8 @@
-{ pkgs, config, ... }:
-let
+{
+  pkgs,
+  config,
+  ...
+}: let
   ohMyTmux = pkgs.fetchFromGitHub {
     owner = "gpakosz";
     repo = ".tmux";
@@ -12,8 +15,7 @@ let
     rev = "master";
     sha256 = "sha256-R7OdOSGhT0ag0HOfGaCklxo2py1qhSFhapkgTNwzRC4=";
   };
-in
-{
+in {
   ".tmux.conf" = {
     source = "${ohMyTmux}/.tmux.conf";
   };
@@ -50,6 +52,12 @@ in
 
   ".config/tmuxp" = {
     source = ./config/tmuxp;
+    recursive = true;
+  };
+
+  # Fish function files
+  ".config/fish/functions" = {
+    source = ./config/fish/functions;
     recursive = true;
   };
 

@@ -1,11 +1,13 @@
-{ config, pkgs, lib, ... }:
-
-let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   name = "Krishnaswamy Subramanian";
   user = "subramk";
   email = "jskswamy@gmail.com";
-in
-{
+in {
   # Shared shell configuration
   zsh = {
     enable = true;
@@ -55,103 +57,12 @@ in
     '';
   };
 
-  # Add fish configuration
-  fish = {
-    enable = true;
-    plugins = [
-      {
-        name = "gruvbox";
-        src = pkgs.fishPlugins.gruvbox.src;
-      }
-    ];
-    shellAliases = {
-      diff = "difft";
-      ls = "eza --icons=always";
-      cat = "bat";
-      weather = "curl \"wttr.in/chennai\"";
-      ips = "ifconfig | rg \"inet \" | rg -v 127.0.0.1 | cut -d\\  -f2 | sort";
-      picocom = "ls -l /dev | rg --regexp 'tty.\\w*UART' | awk '{print \"/dev/\"$9}'";
-      vim = "nvim";
-      vi = "nvim";
-      glow = "glow -p -w (tput cols)";
-      cdr = "cd (git rev-parse --show-toplevel)";
-      chrome = "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome";
-      hackspace = "tmuxp load -a -y ~/.config/tmuxp/hackspace.yml";
-    };
-    interactiveShellInit = ''
-      # Locale and general environment
-      set -gx LC_CTYPE en_US.UTF-8
-      set -gx LANG en_US.UTF-8
-      set -gx LC_ALL en_US.UTF-8
-
-      # Tooling environment
-      set -gx GOPATH "$HOME/go"
-      set -gx FZF_TMUX 1
-      set -gx FZF_TMUX_HEIGHT 80
-      set -gx FZF_ALT_C_COMMAND "fd -t d . $HOME"
-      set -l find_source_code_command "fd . $HOME/source/ --exclude vendor --exclude node_modules"
-      set -gx FZF_CTRL_T_COMMAND $find_source_code_command
-      set -gx FZF_CTRL_T_OPTS "--preview 'bat --color always {} 2>/dev/null or cat -n {} || eza --color always -l --git --git-ignore {} 2>/dev/null || tree -C {} 2>/dev/null | head -200' --select-1 --exit-0"
-      set -gx FZF_CTRL_R_OPTS "--sort --exact --preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
-      set -gx NIX_IGNORE_SYMLINK_STORE 1
-      set -gx MANPAGER "bat -l man -p"
-      set -gx DOCKER_HOST unix:///Users/${user}/.colima/default/docker.sock
-      set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
-      set -gx GNUPGHOME "$HOME/.gnupg"
-      set -gx BAT_THEME "gruvbox-dark"
-      set -gx GOPRIVATE source.golabs.io
-      set -gx GPG_TTY (tty)
-      set -gx fzf_fd_opts --hidden --exclude=.git --exclude=node_modules
-      set -gx UV_MANAGED_PYTHON true
-      set -gx FABRIC_COMMIT_PATTERN git_commit_message
-
-      # PATH additions (use fish_add_path to avoid duplicates)
-      fish_add_path -g $GOPATH/bin
-      # fish_add_path -g "$HOME/Library/Python/3.9/bin"
-      fish_add_path -g "$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
-      fish_add_path -g "$HOME/.cargo/bin"
-      fish_add_path -g "$HOME/dot-files/bin"
-      fish_add_path -g "$HOME/.Spacevim/bin"
-      fish_add_path -g "$HOME/.bin"
-      fish_add_path -g "$HOME/.local/bin"
-      fish_add_path -g "$HOME/Library/Flutter/bin"
-      fish_add_path -g "$PWD/node_modules/.bin"
-      fish_add_path -g /run/current-system/sw/bin
-      fish_add_path -g /opt/homebrew/bin
-      fish_add_path -g "/Applications/Keybase.app/Contents/SharedSupport/bin"
-      fish_add_path -g /Users/${user}/.codeium/windsurf/bin
-
-      # Editor (kept as vim per your preference)
-      set -gx ALTERNATE_EDITOR ""
-      set -gx EDITOR "nvim"
-      set -gx VISUAL "nvim"
-
-      # Interactive-only hooks and tweaks
-      if status --is-interactive
-        # jump
-        source (jump shell fish | psub)
-        # direnv
-        direnv hook fish | source
-        # any-nix-shell
-        any-nix-shell fish | source
-        # increase open file limit
-        ulimit -S -n 16384
-        # starship prompt
-        source (/run/current-system/sw/bin/starship init fish --print-full-init | psub)
-        # zoxide
-        zoxide init fish | source
-
-        # Ghostty cursor behavior
-        if string match -q -- '*ghostty*' $TERM
-          set -g fish_vi_force_cursor 1
-        end
-      end
-    '';
-  };
+  # Fish shell configuration (modularized)
+  fish = import ./config/fish {inherit config pkgs lib user;};
 
   git = {
     enable = true;
-    ignores = [ "*.swp" ];
+    ignores = ["*.swp"];
     userName = name;
     userEmail = email;
     lfs = {
@@ -170,8 +81,8 @@ in
 
   vim = {
     enable = true;
-    plugins = with pkgs.vimPlugins; [ vim-airline vim-airline-themes vim-startify vim-tmux-navigator ];
-    settings = { ignorecase = true; };
+    plugins = with pkgs.vimPlugins; [vim-airline vim-airline-themes vim-startify vim-tmux-navigator];
+    settings = {ignorecase = true;};
     extraConfig = ''
       "" General
       set number
@@ -322,7 +233,6 @@ in
           # Additional key bindings can be added here if needed
         ];
       };
-
     };
   };
 
@@ -335,29 +245,29 @@ in
       no-emit-version = true;
       armor = true;
       throw-keyids = true;
-      
+
       # Strong cryptography preferences
       personal-cipher-preferences = "AES256 AES192 AES";
       personal-digest-preferences = "SHA512 SHA384 SHA256";
       personal-compress-preferences = "ZLIB BZIP2 ZIP Uncompressed";
       default-preference-list = "SHA512 SHA384 SHA256 AES256 AES192 AES ZLIB BZIP2 ZIP Uncompressed";
-      
+
       # Strong algorithms for key operations
       cert-digest-algo = "SHA512";
       s2k-digest-algo = "SHA512";
       s2k-cipher-algo = "AES256";
-      
+
       # Security and validation
       require-cross-certification = true;
       with-fingerprint = true;
       keyid-format = "0xlong";
       list-options = "show-uid-validity";
       verify-options = "show-uid-validity";
-      
+
       # Compatibility
       charset = "utf-8";
       use-agent = true;
-      
+
       # Memory protection (comment out if it causes issues)
       require-secmem = true;
       no-symkey-cache = true;
@@ -368,10 +278,12 @@ in
     enable = true;
     enableDefaultConfig = false;
     includes = [
-      (lib.mkIf pkgs.stdenv.hostPlatform.isLinux
+      (
+        lib.mkIf pkgs.stdenv.hostPlatform.isLinux
         "/home/${user}/.ssh/config_external"
       )
-      (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin
+      (
+        lib.mkIf pkgs.stdenv.hostPlatform.isDarwin
         "/Users/${user}/.ssh/config_external"
       )
     ];
@@ -394,5 +306,4 @@ in
   tmux = {
     enable = false;
   };
-
 }
