@@ -19,6 +19,7 @@ return {
 				dockerls = {}, -- Docker
 				html = {}, -- HTML
 				cssls = {}, -- CSS
+				sqls = {}, -- SQL language server
 			},
 		},
 	},
