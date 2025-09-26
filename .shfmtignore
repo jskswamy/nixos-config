@@ -1,0 +1,2 @@
+# Exclude powerlevel10k congiguration files
+**/p10k.zsh
