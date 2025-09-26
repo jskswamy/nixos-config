@@ -133,7 +133,7 @@ return {
 				yaml = { "prettier" },
 
 				-- System languages
-				nix = { "nixpkgs_fmt" },
+				nix = { "alejandra" },
 				terraform = { "terraform_fmt" },
 				sh = { "shfmt" },
 				bash = { "shfmt" },
