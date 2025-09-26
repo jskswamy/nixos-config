@@ -58,26 +58,12 @@ in {
   };
 
   # Fish shell configuration (modularized)
-  fish = import ./config/fish {inherit config pkgs lib user;};
-
-  git = {
-    enable = true;
-    ignores = ["*.swp"];
-    userName = name;
-    userEmail = email;
-    lfs = {
-      enable = true;
-    };
-    extraConfig = {
-      init.defaultBranch = "main";
-      core = {
-        editor = "vim";
-        autocrlf = "input";
-      };
-      pull.rebase = true;
-      rebase.autoStash = true;
-    };
+  fish = import ./config/fish {
+    inherit config pkgs lib user;
   };
+
+  # Git configuration (modularized)
+  git = import ./config/git {inherit config pkgs lib user;};
 
   vim = {
     enable = true;
