@@ -1,6 +1,4 @@
-_:
-
-[
+_: [
   # Terminals
   "ghostty"
 
@@ -53,4 +51,7 @@ _:
   # Imaging & Media
   "canon-eos-utility"
   "spotify"
+
+  # Database Utilities
+  "mysqlworkbench"
 ]
