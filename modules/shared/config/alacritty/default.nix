@@ -11,9 +11,7 @@
     };
 
     scrolling = {
-      # Limit scrollback buffer to improve performance
-      history = 10000; # Default is 10000, can reduce to 5000 for better performance
-      # Number of lines to scroll for each scroll wheel click
+      history = 1000; # Very low since tmux handles session persistence
       multiplier = 3;
     };
 
