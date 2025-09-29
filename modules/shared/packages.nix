@@ -60,7 +60,7 @@ with pkgs; [
 
   # Languages & Toolchains
   cargo
-  go_1_23
+  go
   jdk8
   nodejs_24
   python313Packages.nbdime
