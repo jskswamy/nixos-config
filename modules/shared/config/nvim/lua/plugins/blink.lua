@@ -6,7 +6,7 @@ return {
 			-- Ensure we override LazyVim's keymap preset
 			opts.keymap = opts.keymap or {}
 			opts.keymap.preset = "default"
-			
+
 			-- Override/add our custom keymaps
 			local custom_keymaps = {
 				-- IntelliJ-style Tab to accept completion
@@ -33,30 +33,30 @@ return {
 				-- Enter only confirms if explicitly selected
 				["<CR>"] = { "accept", "fallback" },
 			}
-			
+
 			-- Merge custom keymaps, ensuring they take precedence
 			for key, value in pairs(custom_keymaps) do
 				opts.keymap[key] = value
 			end
-			
+
 			-- Ensure completion settings
 			opts.completion = opts.completion or {}
 			opts.completion.accept = opts.completion.accept or {}
 			opts.completion.accept.auto_brackets = { enabled = true }
-			
+
 			opts.completion.menu = opts.completion.menu or {}
 			opts.completion.menu.auto_show = true
 			opts.completion.menu.draw = {
-				columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } }
+				columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
 			}
-			
+
 			opts.completion.documentation = opts.completion.documentation or {}
 			opts.completion.documentation.auto_show = true
 			opts.completion.documentation.auto_show_delay_ms = 200
-			
+
 			opts.completion.trigger = opts.completion.trigger or {}
 			opts.completion.trigger.show_on_insert_on_trigger_character = true
-			
+
 			-- Fix cmdline completion to use arrow keys
 			opts.cmdline = opts.cmdline or {}
 			opts.cmdline.keymap = {
@@ -66,7 +66,7 @@ return {
 				["<Tab>"] = { "accept", "fallback" },
 				["<CR>"] = { "accept", "fallback" },
 			}
-			
+
 			return opts
 		end,
 	},

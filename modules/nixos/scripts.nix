@@ -1,7 +1,5 @@
 # NixOS-specific shell scripts
-{ user }:
-
-{
+{user}: {
   # Add NixOS-specific scripts here when needed
   # Example:
   # ".local/bin/nixos-specific-script" = {

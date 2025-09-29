@@ -4,4 +4,3 @@
 
 -- Use fish shell (managed by Nix)
 vim.o.shell = "fish"
-

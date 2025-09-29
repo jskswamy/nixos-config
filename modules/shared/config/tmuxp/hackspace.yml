@@ -1,3 +1,4 @@
+---
 session_name: hackspace
 start_directory: "$PWD"
 windows:

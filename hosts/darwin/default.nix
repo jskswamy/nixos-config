@@ -1,8 +1,10 @@
-{ config, pkgs, ... }:
-
-let user = "subramk"; in
-
 {
+  config,
+  pkgs,
+  ...
+}: let
+  user = "subramk";
+in {
   imports = [
     ../../modules/darwin/home-manager.nix
     ../../modules/shared
@@ -12,17 +14,21 @@ let user = "subramk"; in
     package = pkgs.nix;
 
     settings = {
-      trusted-users = [ "@admin" "${user}" ];
-      substituters = [ "https://nix-community.cachix.org" "https://cache.nixos.org" ];
-      trusted-public-keys = [ 
-        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" 
+      trusted-users = ["@admin" "${user}"];
+      substituters = ["https://nix-community.cachix.org" "https://cache.nixos.org"];
+      trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
     };
 
     gc = {
       automatic = true;
-      interval = { Weekday = 0; Hour = 2; Minute = 0; };
+      interval = {
+        Weekday = 0;
+        Hour = 2;
+        Minute = 0;
+      };
       options = "--delete-older-than 30d";
     };
 
@@ -37,7 +43,7 @@ let user = "subramk"; in
 
   # Enable fish system-wide and register it in /etc/shells
   programs.fish.enable = true;
-  environment.shells = [ pkgs.fish ];
+  environment.shells = [pkgs.fish];
 
   # Enable GnuPG agent with SSH support
   programs.gnupg.agent = {
@@ -45,8 +51,10 @@ let user = "subramk"; in
     enableSSHSupport = true;
   };
 
-  environment.systemPackages = with pkgs; [
-  ] ++ (import ../../modules/shared/packages.nix { inherit pkgs; });
+  environment.systemPackages = with pkgs;
+    [
+    ]
+    ++ (import ../../modules/shared/packages.nix {inherit pkgs;});
 
   # Install fonts system-wide on macOS (for Alacritty and others)
   fonts = {
@@ -110,7 +118,6 @@ let user = "subramk"; in
         SecondClickThreshold = 1;
         TrackpadThreeFingerTapGesture = 2;
       };
-
     };
 
     defaults.CustomUserPreferences = {

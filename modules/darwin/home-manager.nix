@@ -1,14 +1,17 @@
-{ config, pkgs, lib, home-manager, ... }:
-
-let
+{
+  config,
+  pkgs,
+  lib,
+  home-manager,
+  ...
+}: let
   user = "subramk";
   # Define the content of your file as a derivation
-  sharedFiles = import ../shared/files.nix { inherit config pkgs; };
+  sharedFiles = import ../shared/files.nix {inherit config pkgs;};
   sharedScripts = import ../shared/scripts.nix;
-  additionalFiles = import ./files.nix { inherit user config pkgs; };
-  additionalScripts = import ./scripts.nix { inherit user config pkgs; };
-in
-{
+  additionalFiles = import ./files.nix {inherit user config pkgs;};
+  additionalScripts = import ./scripts.nix {inherit user config pkgs;};
+in {
   imports = [
     ./dock
   ];
@@ -23,8 +26,8 @@ in
 
   homebrew = {
     enable = true;
-    casks = pkgs.callPackage ./casks.nix { };
-    brews = pkgs.callPackage ./brews.nix { };
+    casks = pkgs.callPackage ./casks.nix {};
+    brews = pkgs.callPackage ./brews.nix {};
     onActivation = {
       cleanup = "uninstall";
       upgrade = true;
@@ -86,10 +89,15 @@ in
   # Enable home-manager
   home-manager = {
     useGlobalPkgs = true;
-    users.${user} = { pkgs, config, lib, ... }: {
+    users.${user} = {
+      pkgs,
+      config,
+      lib,
+      ...
+    }: {
       home = {
         enableNixpkgsReleaseCheck = false;
-        packages = pkgs.callPackage ./packages.nix { };
+        packages = pkgs.callPackage ./packages.nix {};
         file = lib.mkMerge [
           sharedFiles
           sharedScripts
@@ -103,7 +111,7 @@ in
           RUSTFLAGS = "-L ${pkgs.libiconv}/lib $RUSTFLAGS";
         };
       };
-      programs = { } // import ../shared/home-manager.nix { inherit config pkgs lib; };
+      programs = {} // import ../shared/home-manager.nix {inherit config pkgs lib;};
 
       services.gpg-agent = {
         enable = true;
@@ -123,7 +131,7 @@ in
         things3 = {
           enable = true;
           config = {
-            ProgramArguments = [ "/Applications/Things3.app/Contents/MacOS/Things3" ];
+            ProgramArguments = ["/Applications/Things3.app/Contents/MacOS/Things3"];
             RunAtLoad = true;
             KeepAlive = false;
           };
@@ -131,7 +139,7 @@ in
         timing = {
           enable = true;
           config = {
-            ProgramArguments = [ "/Applications/Timing.app/Contents/MacOS/Timing" ];
+            ProgramArguments = ["/Applications/Timing.app/Contents/MacOS/Timing"];
             RunAtLoad = true;
             KeepAlive = false;
           };
@@ -139,7 +147,7 @@ in
         jomo = {
           enable = true;
           config = {
-            ProgramArguments = [ "/Applications/Jomo.app/Contents/MacOS/Jomo" ];
+            ProgramArguments = ["/Applications/Jomo.app/Contents/MacOS/Jomo"];
             RunAtLoad = true;
             KeepAlive = false;
           };
@@ -147,15 +155,15 @@ in
         keybase = {
           enable = true;
           config = {
-            ProgramArguments = [ "/Applications/Keybase.app/Contents/SharedSupport/bin/keybase" "launchd" "forservice" ];
+            ProgramArguments = ["/Applications/Keybase.app/Contents/SharedSupport/bin/keybase" "launchd" "forservice"];
             RunAtLoad = true;
-            KeepAlive = true;  # Keybase service should stay running
+            KeepAlive = true; # Keybase service should stay running
           };
         };
         google-drive = {
           enable = true;
           config = {
-            ProgramArguments = [ "/Applications/Google Drive.app/Contents/MacOS/Google Drive" ];
+            ProgramArguments = ["/Applications/Google Drive.app/Contents/MacOS/Google Drive"];
             RunAtLoad = true;
             KeepAlive = false;
           };
@@ -173,17 +181,17 @@ in
     enable = true;
     username = user;
     entries = [
-      { path = "/Applications/Safari.app/"; }
-      { path = "/Applications/Arc.app/"; }
-      { path = "/System/Applications/Mail.app";}
-      { path = "/System/Applications/Calendar.app/";}
-      { path = "${pkgs.alacritty}/Applications/Alacritty.app/"; }
-      { path = "/Applications/Capacities.app/"; }
-      { path = "/Applications/Things3.app/"; }
-      { path = "/System/Applications/Messages.app/"; }
-      { path = "/System/Applications/Notes.app/"; }
-      { path = "/System/Applications/Music.app/"; }
-      { path = "/System/Applications/System Settings.app/"; }
+      {path = "/Applications/Safari.app/";}
+      {path = "/Applications/Arc.app/";}
+      {path = "/System/Applications/Mail.app";}
+      {path = "/System/Applications/Calendar.app/";}
+      {path = "${pkgs.alacritty}/Applications/Alacritty.app/";}
+      {path = "/Applications/Capacities.app/";}
+      {path = "/Applications/Things3.app/";}
+      {path = "/System/Applications/Messages.app/";}
+      {path = "/System/Applications/Notes.app/";}
+      {path = "/System/Applications/Music.app/";}
+      {path = "/System/Applications/System Settings.app/";}
       {
         path = "${config.users.users.${user}.home}/Downloads";
         section = "others";
@@ -191,5 +199,4 @@ in
       }
     ];
   };
-
 }

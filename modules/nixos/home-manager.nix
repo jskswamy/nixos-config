@@ -1,13 +1,16 @@
-{ config, pkgs, lib, ... }:
-
-let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   user = "subramk";
   xdg_configHome = "/home/${user}/.config";
-  shared-programs = import ../shared/home-manager.nix { inherit config pkgs lib; };
-  shared-files = import ../shared/files.nix { inherit config pkgs; };
+  shared-programs = import ../shared/home-manager.nix {inherit config pkgs lib;};
+  shared-files = import ../shared/files.nix {inherit config pkgs;};
   shared-scripts = import ../shared/scripts.nix;
-  nixos-files = import ./files.nix { inherit user; };
-  nixos-scripts = import ./scripts.nix { inherit user; };
+  nixos-files = import ./files.nix {inherit user;};
+  nixos-scripts = import ./scripts.nix {inherit user;};
 
   polybar-user_modules = builtins.readFile (pkgs.replaceVars ./config/polybar/user_modules.ini {
     packages = "${xdg_configHome}/polybar/bin/check-nixos-updates.sh";
@@ -25,14 +28,12 @@ let
   polybar-modules = builtins.readFile ./config/polybar/modules.ini;
   polybar-bars = builtins.readFile ./config/polybar/bars.ini;
   polybar-colors = builtins.readFile ./config/polybar/colors.ini;
-
-in
-{
+in {
   home = {
     enableNixpkgsReleaseCheck = false;
     username = "${user}";
     homeDirectory = "/home/${user}";
-    packages = pkgs.callPackage ./packages.nix { };
+    packages = pkgs.callPackage ./packages.nix {};
     file = shared-files // shared-scripts // nixos-files // nixos-scripts;
     stateVersion = "21.05";
   };
@@ -115,6 +116,5 @@ in
     };
   };
 
-  programs = shared-programs // { };
-
+  programs = shared-programs // {};
 }

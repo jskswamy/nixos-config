@@ -8,7 +8,7 @@
   plugins = [
     {
       name = "gruvbox";
-      src = pkgs.fishPlugins.gruvbox.src;
+      inherit (pkgs.fishPlugins.gruvbox) src;
     }
   ];
 

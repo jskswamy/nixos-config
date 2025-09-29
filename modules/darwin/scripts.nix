@@ -1,7 +1,9 @@
 # Darwin-specific shell scripts
-{ user, config, pkgs }:
-
 {
+  user,
+  config,
+  pkgs,
+}: {
   # Add Darwin-specific scripts here when needed
   # Example:
   # ".local/bin/darwin-specific-script" = {
