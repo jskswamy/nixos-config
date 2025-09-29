@@ -54,15 +54,40 @@ color help-action       yellow      black
 # Basic settings for better usability
 set wrap-lines = yes
 set tab-size = 2
-set mouse = true
+set mouse = false                    # Disable mouse to allow terminal text selection
+set mouse-scroll = 3                 # Allow mouse wheel scrolling
+set ignore-case = yes               # Case-insensitive search
+
+# Editor settings for better diff viewing
+set diff-context = 3                # Show 3 lines of context in diffs
+set line-graphics = utf-8           # Use UTF-8 line graphics
+set truncation-delimiter = ~        # Show ~ for truncated lines
 
 # Key bindings for vim-like navigation
 bind generic g move-first-line
 bind generic G move-last-line
 bind generic <C-f> scroll-page-down
 bind generic <C-b> scroll-page-up
+bind generic <PageDown> scroll-page-down
+bind generic <PageUp> scroll-page-up
 
-# Copy commit hash to clipboard
+# Alternative navigation (since Ctrl+d/u conflict with existing bindings)
+bind generic <Space> scroll-page-down
+bind generic <Backspace> scroll-page-up
+
+# Copy operations
 bind main y !@sh -c "echo %(commit) | pbcopy"
 bind diff y !@sh -c "echo %(commit) | pbcopy"
 bind log y !@sh -c "echo %(commit) | pbcopy"
+bind main Y !@sh -c "echo '%(commit) %(subject)' | pbcopy"  # Copy commit + subject
+bind diff D !@sh -c "tig show %(commit) | pbcopy"          # Copy full diff
+
+# Open files in editor
+bind diff e !sh -c "${EDITOR:-nvim} %(file)"
+bind tree e !sh -c "${EDITOR:-nvim} %(file)"
+
+# Search bindings
+bind generic / search
+bind generic ? search-back
+bind generic n find-next
+bind generic N find-prev
