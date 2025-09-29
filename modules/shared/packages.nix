@@ -147,6 +147,7 @@ with pkgs; [
   unrar
   unzip
   zip
+  k9s
 
   # AI CLI Tools & Agents
   claude-code
