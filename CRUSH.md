@@ -5,7 +5,8 @@
 - **Build Config**: `nix run .#build`
 - **Build and Switch Config**: `nix run .#build-switch`
 - **Format Code**: `nix run nixpkgs#nixpkgs-fmt -- .` (or uncomment `nixfmt` in `lefthook.yml`)
-- **Lint Code**: `nix run nixpkgs#statix -- check .` and `nix run nixpkgs#deadnix -- .` (or uncomment `statix` and `deadnix` in `lefthook.yml`)
+- **Lint Code**: `nix run nixpkgs#statix -- check .` and `nix run nixpkgs#deadnix -- .` (or uncomment `statix` and
+  `deadnix` in `lefthook.yml`)
 - **Check for Secrets**: `nix run nixpkgs#gitleaks -- detect`
 - **Update Flakes**: `nix flake update`
 
@@ -27,7 +28,8 @@
 - You always clearly explain the changes you are proposing before performing them.
 - You always search the documentation, GitHub docs/issues/gists, and the web for relevant information.
 - You must strictly follow all instructions provided in this document.
-- After making changes, only run `nix run .#build` to verify the configuration. The user will be responsible for running `nix run .#build-switch` to apply the changes.
+- After making changes, only run `nix run .#build` to verify the configuration. The user will be responsible for
+  running `nix run .#build-switch` to apply the changes.
 
 ## Git Commit Message Guidelines
 
@@ -42,6 +44,7 @@
 - **Package Commits**: If adding packages, provide a brief description of each tool's purpose.
 - **Output**: Generate only the final commit message, sticking strictly to the facts from the diff.
 - **No Prefixes**: Do not use prefixes like `Doc:`, `Feat:`, or `Fix:` in the subject line.
-- **Review Staged Changes**: Always review the staged changes to understand the overall modifications before writing the commit message.
+- **Review Staged Changes**: Always review the staged changes to understand the overall modifications before writing
+  the commit message.
 - **Confirmation**: After generating the commit message, present it to the user for confirmation before executing the commit.
 - **No Co-Author**: Do not add `Co-Authored-By: Crush <crush@charm.land>` to the commit message.

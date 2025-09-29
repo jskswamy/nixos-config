@@ -2,44 +2,53 @@
 
 ## What is Nix?
 
-Nix is a reproducible package manager and build system. It installs software into content-addressed, immutable store paths and composes systems declaratively from those building blocks. Because builds are pure and isolated, the same configuration yields the same result on any machine.
+Nix is a reproducible package manager and build system. It installs software into content-addressed, immutable store
+paths and composes systems declaratively from those building blocks. Because builds are pure and isolated, the same
+configuration yields the same result on any machine.
 
 ### nix-darwin
 
-nix-darwin brings Nix-style, declarative configuration to macOS. It manages macOS system defaults, LaunchDaemons/Agents, system packages, and more using Nix.
+nix-darwin brings Nix-style, declarative configuration to macOS. It manages macOS system defaults,
+LaunchDaemons/Agents, system packages, and more using Nix.
 
 ### Home Manager
 
-Home Manager manages per-user dotfiles and CLI tools declaratively (shells, editors, prompts, aliases, etc.) and works on both macOS and Linux. It pairs well with nix-darwin (macOS) and NixOS (Linux).
+Home Manager manages per-user dotfiles and CLI tools declaratively (shells, editors, prompts, aliases, etc.) and
+works on both macOS and Linux. It pairs well with nix-darwin (macOS) and NixOS (Linux).
 
 ## Why a single, consolidated configuration?
 
-Running macOS and Linux with a mix of system-level (nix-darwin/NixOS) and user-level (Home Manager) configuration can get fragmented. A single flake unifies:
+Running macOS and Linux with a mix of system-level (nix-darwin/NixOS) and user-level (Home Manager) configuration
+can get fragmented. A single flake unifies:
 
 - nix-darwin/NixOS system configuration
 - Home Manager user programs and dotfiles
 - Shared modules and overlays across platforms
 
-This repository follows the approach popularized by the excellent base repo: [dustinlyons/nixos-config](https://github.com/dustinlyons/nixos-config). Refer there for deeper background, rationale, and additional tips.
+This repository follows the approach popularized by the excellent base repo:
+[dustinlyons/nixos-config](https://github.com/dustinlyons/nixos-config). Refer there for deeper background, rationale,
+and additional tips.
 
 ## About this repo
 
-This is my new home configuration and replaces my previous setup at [jskswamy/nix-darwin](https://github.com/jskswamy/nix-darwin). It consolidates macOS and NixOS into one flake with shared modules and per-host overrides.
+This is my new home configuration and replaces my previous setup at
+[jskswamy/nix-darwin](https://github.com/jskswamy/nix-darwin). It consolidates macOS and NixOS into one flake with
+shared modules and per-host overrides.
 
 ## Setup guide
 
-1) Install Nix
+1. Install Nix
 
 - Follow the official instructions: [Install Nix](https://nixos.org/download)
 
-2) Clone this repo
+1. Clone this repo
 
 ```bash
 git clone https://github.com/jskswamy/nixos-config
 cd nixos-config
 ```
 
-3) (Optional) Personalize templates
+1. (Optional) Personalize templates
 
 - Replaces tokens like `%USER%`, `%EMAIL%`, `%NAME%` in the tree.
 
@@ -47,7 +56,7 @@ cd nixos-config
 nix run .#apply
 ```
 
-4) Build and switch
+1. Build and switch
 
 - macOS (Apple Silicon example):
 
@@ -63,7 +72,7 @@ sudo darwin-rebuild switch --flake .#aarch64-darwin
 sudo nixos-rebuild switch --flake .#<platform>  # e.g., x86_64-linux or aarch64-linux
 ```
 
-5) (Optional) Build only
+1. (Optional) Build only
 
 ```bash
 nix run .#build                         # macOS build-only
@@ -132,7 +141,8 @@ sudo nixos-rebuild switch --flake .#<platform>  # x86_64-linux or aarch64-linux
 
 ### Platform selection (no per-host keys)
 
-This flake exposes system configurations keyed by platform (not hostname). That mirrors the upstream design; see the maintainer’s explanation here: [Per host configuration — discussions/68](https://github.com/dustinlyons/nixos-config/discussions/68).
+This flake exposes system configurations keyed by platform (not hostname). That mirrors the upstream design; see the
+maintainer's explanation here: [Per host configuration — discussions/68](https://github.com/dustinlyons/nixos-config/discussions/68).
 
 - macOS examples:
 
@@ -150,7 +160,8 @@ sudo nixos-rebuild switch --flake .#x86_64-linux
 
 ### True per-host keys (optional)
 
-If you need explicit host keys (e.g., `work-mbp`, `personal-mbp`), define named entries under `darwinConfigurations`/`nixosConfigurations` and compose a shared `common.nix` plus a small host file:
+If you need explicit host keys (e.g., `work-mbp`, `personal-mbp`), you can define named entries under
+`darwinConfigurations`/`nixosConfigurations`. Create a shared `common.nix` plus small host-specific files:
 
 ```nix
 # flake.nix (fragment)
@@ -173,10 +184,14 @@ darwin-rebuild switch --flake .#work-mbp
 sudo nixos-rebuild switch --flake .#desktop
 ```
 
-Note: the upstream repo intentionally optimizes for platform-keyed configs for simplicity/learnability; prefer a single host per platform as long as feasible, and introduce per-host keys only if you truly need divergent configurations ([discussion](https://github.com/dustinlyons/nixos-config/discussions/68)).
+**Note:** The upstream repo optimizes for platform-keyed configs for simplicity. Prefer a single host per platform
+when possible. Only introduce per-host keys if you need truly divergent configurations
+([discussion](https://github.com/dustinlyons/nixos-config/discussions/68)).
 
 ## Notes
 
-- This repo is intentionally concise; if you need more depth (e.g., secrets management, install scripts, advanced macOS defaults), see the upstream reference [dustinlyons/nixos-config](https://github.com/dustinlyons/nixos-config).
-- Home Manager covers user programs and shells (e.g., fish/zsh), while nix-darwin/NixOS cover system-level configuration.
+- This repo is intentionally concise. For more advanced features (secrets management, install scripts, macOS
+  defaults), see [dustinlyons/nixos-config](https://github.com/dustinlyons/nixos-config).
+- Home Manager handles user programs and shells (fish/zsh), while nix-darwin/NixOS handle system-level
+  configuration.
 - Shared modules keep duplication low across platforms; host files add machine-specific choices.

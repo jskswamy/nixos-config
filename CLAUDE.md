@@ -4,11 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a unified Nix flake configuration that manages both macOS (nix-darwin) and NixOS systems with Home Manager for user-level configuration. The repository consolidates system-level and user-level configuration across platforms.
+This is a unified Nix flake configuration that manages both macOS (nix-darwin) and NixOS systems with Home Manager for
+user-level configuration. The repository consolidates system-level and user-level configuration across platforms.
 
 ## Architecture
 
-- **Platform-based configuration**: Systems are configured by platform (aarch64-darwin, x86_64-darwin, x86_64-linux, aarch64-linux) rather than hostname
+- **Platform-based configuration**: Systems are configured by platform (aarch64-darwin, x86_64-darwin, x86_64-linux,
+  aarch64-linux) rather than hostname
 - **Modular structure**: Shared modules for cross-platform consistency, platform-specific modules for OS differences
 - **Flake-based**: All dependencies and inputs are managed through `flake.nix` with locked versions in `flake.lock`
 
@@ -138,4 +140,3 @@ nix run nixpkgs#lefthook -- install   # Install pre-commit hooks
 - Platform configurations don't use hostname-based keys by design for simplicity
 - Home Manager manages user dotfiles and programs across both platforms
 - Homebrew integration is handled via nix-homebrew for macOS
-
