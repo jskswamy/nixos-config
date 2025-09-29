@@ -1,0 +1,20 @@
+# yamllint configuration
+extends: default
+
+rules:
+  line-length:
+    max: 120 # Increase from default 80 to 120 for modern displays
+    level: warning
+
+  # Allow longer lines in comments
+  comments:
+    min-spaces-from-content: 1
+
+  # Be more lenient with indentation
+  indentation:
+    spaces: 2
+    indent-sequences: true
+    check-multi-line-strings: false
+
+  # Allow empty lines at document start (useful for YAML frontmatter)
+  document-start: disable
