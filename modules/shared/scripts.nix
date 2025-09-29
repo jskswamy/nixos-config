@@ -37,6 +37,11 @@
     executable = true;
   };
 
+  ".local/bin/nix-diff" = {
+    source = ./scripts/nix-diff;
+    executable = true;
+  };
+
   # System utilities
   ".local/bin/search" = {
     source = ./scripts/search;

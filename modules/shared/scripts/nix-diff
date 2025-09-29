@@ -1,0 +1,483 @@
+#!/usr/bin/env bash
+
+# Nix Generation Diff Script
+# Shows differences between the last two generations for system and home-manager
+
+set -euo pipefail
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
+
+# Function to print colored output
+print_header() {
+	echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+	echo -e "${CYAN}$1${NC}"
+	echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+}
+
+print_section() {
+	echo -e "\n${YELLOW}🔍 $1${NC}"
+	echo -e "${YELLOW}$(printf '%.0s─' {1..60})${NC}"
+}
+
+print_info() {
+	echo -e "${BLUE}ℹ️  $1${NC}"
+}
+
+print_success() {
+	echo -e "${GREEN}✅ $1${NC}"
+}
+
+print_error() {
+	echo -e "${RED}❌ $1${NC}"
+}
+
+# Function to check if command exists
+command_exists() {
+	command -v "$1" >/dev/null 2>&1
+}
+
+# Function to install nvd if not available
+ensure_nvd() {
+	if ! command_exists nvd; then
+		print_info "Installing nvd (Nix Version Diff) temporarily..."
+		local nvd_path
+		nvd_path=$(nix build nixpkgs#nvd --no-link --print-out-paths)
+		export PATH="${nvd_path}/bin:$PATH"
+	fi
+}
+
+# Function to get system generations
+get_system_generations() {
+	if [[ $OSTYPE == "darwin"* ]]; then
+		# macOS - get darwin generations
+		if [[ -d "/nix/var/nix/profiles" ]]; then
+			find /nix/var/nix/profiles -name "system-*-link" -type l | sort -V | tail -2
+		else
+			echo ""
+		fi
+	else
+		# NixOS - get system generations
+		if [[ -d "/nix/var/nix/profiles" ]]; then
+			find /nix/var/nix/profiles -name "system-*-link" -type l | sort -V | tail -2
+		else
+			echo ""
+		fi
+	fi
+}
+
+# Function to get home-manager generations (integrated with nix-darwin)
+get_hm_generations() {
+	# In nix-darwin, home-manager is integrated into system generations
+	# So we extract home-manager specific parts from system generations
+	local system_gens
+	readarray -t system_gens < <(get_system_generations)
+
+	if [[ ${#system_gens[@]} -eq 2 ]]; then
+		echo "${system_gens[0]}" "${system_gens[1]}"
+	else
+		echo ""
+	fi
+}
+
+# Function to get homebrew changes
+get_homebrew_changes() {
+	local old_gen="$1"
+	local new_gen="$2"
+
+	if [[ -z $old_gen || -z $new_gen ]]; then
+		return 1
+	fi
+
+	# Extract homebrew info from system generations
+	local old_brew_info new_brew_info
+
+	# Look for brew-related paths in the generations
+	old_brew_info=$(nix-store -q --references "$old_gen" 2>/dev/null | grep -E "(brew|homebrew)" || echo "")
+	new_brew_info=$(nix-store -q --references "$new_gen" 2>/dev/null | grep -E "(brew|homebrew)" || echo "")
+
+	if [[ -n $old_brew_info || -n $new_brew_info ]]; then
+		echo -e "${BLUE}🍺 Homebrew Changes:${NC}"
+
+		# Compare brew versions
+		local old_brew_version new_brew_version
+		old_brew_version=$(echo "$old_brew_info" | grep -o "brew-[^-]*" | head -1 || echo "unknown")
+		new_brew_version=$(echo "$new_brew_info" | grep -o "brew-[^-]*" | head -1 || echo "unknown")
+
+		if [[ $old_brew_version != "$new_brew_version" ]]; then
+			echo -e "${GREEN}[U] Homebrew: $old_brew_version → $new_brew_version${NC}"
+		else
+			echo -e "${BLUE}[=] Homebrew: $new_brew_version (no change)${NC}"
+		fi
+
+		# Try to get actual installed packages if brew is available
+		if command_exists brew; then
+			echo -e "${BLUE}📦 Current Homebrew packages:${NC}"
+
+			local casks_count formulas_count
+			casks_count=$(brew list --cask 2>/dev/null | wc -l | tr -d ' ')
+			formulas_count=$(brew list --formula 2>/dev/null | wc -l | tr -d ' ')
+
+			echo -e "${BLUE}   Casks: $casks_count installed${NC}"
+			echo -e "${BLUE}   Formulas: $formulas_count installed${NC}"
+
+			# Show recently installed/updated packages
+			echo -e "${BLUE}📅 Recent Homebrew activity:${NC}"
+			local recent_activity
+			recent_activity=$(brew info --json=v2 --installed 2>/dev/null | jq -r '.casks[].installed[0].installed_on // .formulae[].installed[0].installed_on' 2>/dev/null | sort -r | head -5 | while read -r date; do
+				if [[ -n $date && $date != "null" ]]; then
+					echo "   Last activity: $date"
+					break
+				fi
+			done)
+			[[ -n $recent_activity ]] && echo "$recent_activity" || echo "   No recent activity found"
+		else
+			echo -e "${YELLOW}   (brew command not available for detailed analysis)${NC}"
+		fi
+	else
+		echo -e "${BLUE}🍺 Homebrew: No changes detected${NC}"
+	fi
+}
+
+# Function to compare generations using nvd
+compare_with_nvd() {
+	local type="$1"
+	local old_gen="$2"
+	local new_gen="$3"
+
+	if [[ -z $old_gen || -z $new_gen ]]; then
+		print_error "Not enough generations found for $type"
+		return 1
+	fi
+
+	print_info "Comparing: $(basename "$old_gen") → $(basename "$new_gen")"
+
+	if command_exists nvd; then
+		nvd diff "$old_gen" "$new_gen"
+	else
+		print_error "nvd not found, falling back to basic diff"
+		nix store diff-closures "$old_gen" "$new_gen"
+	fi
+}
+
+# Function to show generation info
+show_generation_info() {
+	local gen_path="$1"
+	local gen_name
+	gen_name=$(basename "$gen_path")
+
+	echo -e "${BLUE}📦 Generation:${NC} $gen_name"
+
+	if [[ -L $gen_path ]]; then
+		local target
+		target=$(readlink "$gen_path")
+		echo -e "${BLUE}📍 Store Path:${NC} $target"
+
+		# Try to get creation date
+		if [[ -e $gen_path ]]; then
+			local date
+			date=$(stat -f "%Sm" -t "%Y-%m-%d %H:%M:%S" "$gen_path" 2>/dev/null || stat -c "%y" "$gen_path" 2>/dev/null || echo "Unknown")
+			echo -e "${BLUE}📅 Created:${NC} $date"
+		fi
+	fi
+}
+
+# Function to show quick summary
+show_quick_summary() {
+	local type="$1"
+	local old_gen="$2"
+	local new_gen="$3"
+
+	if [[ -z $old_gen || -z $new_gen ]]; then
+		return 1
+	fi
+
+	print_info "Quick summary for $type:"
+
+	# Count packages in each generation
+	local old_count new_count
+	old_count=$(nix-store -q --references "$old_gen" 2>/dev/null | wc -l || echo "0")
+	new_count=$(nix-store -q --references "$new_gen" 2>/dev/null | wc -l || echo "0")
+
+	echo -e "${BLUE}📊 Package count:${NC} $old_count → $new_count"
+
+	# Show size difference
+	local old_size new_size
+	old_size=$(du -sh "$old_gen" 2>/dev/null | cut -f1 || echo "Unknown")
+	new_size=$(du -sh "$new_gen" 2>/dev/null | cut -f1 || echo "Unknown")
+
+	echo -e "${BLUE}💾 Generation size:${NC} $old_size → $new_size"
+}
+
+# Function to show usage
+show_usage() {
+	echo "Usage: $0 [OPTIONS] [OLD_GEN] [NEW_GEN]"
+	echo ""
+	echo "Compare Nix generations for system and home-manager changes"
+	echo ""
+	echo "Arguments:"
+	echo "  OLD_GEN    Generation number or full path (optional)"
+	echo "  NEW_GEN    Generation number or full path (optional)"
+	echo ""
+	echo "Options:"
+	echo "  -h, --help    Show this help message"
+	echo "  -s, --system  Show only system changes"
+	echo "  -b, --brew    Show only homebrew changes"
+	echo "  -l, --list    List available generations"
+	echo ""
+	echo "Examples:"
+	echo "  $0                                           # Compare last 2 generations"
+	echo "  $0 295 297                                   # Compare generation 295 vs 297"
+	echo "  $0 /nix/var/nix/profiles/system-295-link \\"
+	echo "     /nix/var/nix/profiles/system-297-link    # Compare using full paths"
+	echo "  $0 --system 290 295                         # Show only system changes"
+	echo "  $0 --brew 295 297                           # Show only homebrew changes"
+	echo ""
+}
+
+# Function to convert generation number to full path
+gen_number_to_path() {
+	local gen_input="$1"
+
+	# If it's already a full path, return as-is
+	if [[ $gen_input == /nix/var/nix/profiles/system-*-link ]]; then
+		echo "$gen_input"
+		return 0
+	fi
+
+	# If it's just a number, construct the path
+	if [[ $gen_input =~ ^[0-9]+$ ]]; then
+		local gen_path="/nix/var/nix/profiles/system-${gen_input}-link"
+		if [[ -L $gen_path ]]; then
+			echo "$gen_path"
+			return 0
+		else
+			print_error "Generation $gen_input (${gen_path}) does not exist"
+			return 1
+		fi
+	fi
+
+	# If it looks like a partial path or other format, try to validate
+	if [[ -L $gen_input ]]; then
+		echo "$gen_input"
+		return 0
+	fi
+
+	print_error "Invalid generation format: '$gen_input'"
+	print_info "Use either a generation number (e.g., 295) or full path"
+	return 1
+}
+
+# Function to validate generation path
+validate_generation() {
+	local gen_path="$1"
+
+	if [[ ! -L $gen_path ]]; then
+		print_error "Generation path '$gen_path' is not a valid symlink"
+		return 1
+	fi
+
+	if [[ ! -e $gen_path ]]; then
+		print_error "Generation path '$gen_path' does not exist"
+		return 1
+	fi
+
+	return 0
+}
+
+# Main function
+main() {
+	local old_gen=""
+	local new_gen=""
+	local system_only=false
+	local brew_only=false
+
+	# Parse arguments
+	while [[ $# -gt 0 ]]; do
+		case $1 in
+		-h | --help)
+			show_usage
+			exit 0
+			;;
+		-s | --system)
+			system_only=true
+			shift
+			;;
+		-b | --brew)
+			brew_only=true
+			shift
+			;;
+		-l | --list)
+			print_header "📋 Available Generations"
+			print_section "System Generations"
+			local all_gens
+			all_gens=$(find /nix/var/nix/profiles -name "system-*-link" -type l | sort -V)
+			if [[ -n $all_gens ]]; then
+				echo "$all_gens" | while read -r gen; do
+					local gen_num
+					gen_num=$(basename "$gen" | sed 's/system-\([0-9]*\)-link/\1/')
+					echo -e "${YELLOW}Generation #${gen_num}${NC}"
+					show_generation_info "$gen"
+					echo ""
+				done
+				echo -e "${GREEN}💡 Usage: $0 <old_gen_num> <new_gen_num>${NC}"
+				echo -e "${GREEN}   Example: $0 295 297${NC}"
+				echo ""
+				# Show the last 3 generations for quick reference
+				local recent_gens
+				recent_gens=$(echo "$all_gens" | tail -3)
+				if [[ -n $recent_gens ]]; then
+					echo -e "${CYAN}📅 Most Recent Generations:${NC}"
+					echo "$recent_gens" | while read -r gen; do
+						local gen_num
+						gen_num=$(basename "$gen" | sed 's/system-\([0-9]*\)-link/\1/')
+						echo -e "   #${gen_num} - $(basename "$gen")"
+					done
+				fi
+			else
+				print_error "No system generations found"
+			fi
+			exit 0
+			;;
+		-*)
+			print_error "Unknown option: $1"
+			show_usage
+			exit 1
+			;;
+		*)
+			if [[ -z $old_gen ]]; then
+				old_gen="$1"
+			elif [[ -z $new_gen ]]; then
+				new_gen="$1"
+			else
+				print_error "Too many arguments"
+				show_usage
+				exit 1
+			fi
+			shift
+			;;
+		esac
+	done
+
+	# Convert generation numbers to full paths and validate
+	if [[ -n $old_gen ]]; then
+		old_gen=$(gen_number_to_path "$old_gen") || exit 1
+		validate_generation "$old_gen" || exit 1
+	fi
+
+	if [[ -n $new_gen ]]; then
+		new_gen=$(gen_number_to_path "$new_gen") || exit 1
+		validate_generation "$new_gen" || exit 1
+	fi
+
+	# If both generations provided, use them; otherwise auto-detect
+	if [[ -n $old_gen && -n $new_gen ]]; then
+		print_header "🔄 Nix Generation Diff Report (Custom)"
+		print_info "Comparing user-specified generations:"
+		print_info "  Old: $(basename "$old_gen")"
+		print_info "  New: $(basename "$new_gen")"
+	elif [[ -n $old_gen || -n $new_gen ]]; then
+		print_error "Both OLD_GEN and NEW_GEN must be provided together"
+		show_usage
+		exit 1
+	else
+		print_header "🔄 Nix Generation Diff Report (Latest)"
+	fi
+
+	# Ensure nvd is available
+	ensure_nvd
+
+	# Get system generations (use custom if provided)
+	local system_gens
+	if [[ -n $old_gen && -n $new_gen ]]; then
+		system_gens=("$old_gen" "$new_gen")
+	else
+		readarray -t system_gens < <(get_system_generations)
+	fi
+
+	# Show system generations section only if not filtered
+	if [[ $brew_only != true ]]; then
+		print_section "System Generations"
+
+		if [[ ${#system_gens[@]} -eq 2 ]]; then
+			show_generation_info "${system_gens[0]}"
+			echo ""
+			show_generation_info "${system_gens[1]}"
+			echo ""
+
+			show_quick_summary "System" "${system_gens[0]}" "${system_gens[1]}"
+			echo ""
+
+			print_info "Detailed system changes:"
+			compare_with_nvd "System" "${system_gens[0]}" "${system_gens[1]}"
+		else
+			print_error "Found ${#system_gens[@]} system generations (need 2 for comparison)"
+			if [[ ${#system_gens[@]} -eq 1 ]]; then
+				print_info "Only one generation found:"
+				show_generation_info "${system_gens[0]}"
+			fi
+		fi
+	fi
+
+	# Get home-manager changes (integrated with system in nix-darwin)
+	if [[ $brew_only != true && $system_only != true ]]; then
+		print_section "Home Manager Changes"
+
+		if [[ ${#system_gens[@]} -eq 2 ]]; then
+			print_info "Home Manager is integrated with system generations in nix-darwin"
+			print_info "Home Manager changes are included in the system diff above"
+
+			# Extract home-manager specific changes from system diff
+			print_info "Filtering for home-manager related changes..."
+
+			local hm_changes
+			hm_changes=$(nix store diff-closures "${system_gens[0]}" "${system_gens[1]}" 2>/dev/null | grep -E "(home-manager|config\.fish|\.zshrc|starship|alacritty)" || echo "No home-manager specific changes detected")
+
+			if [[ $hm_changes != "No home-manager specific changes detected" ]]; then
+				echo "$hm_changes"
+			else
+				print_info "No obvious home-manager specific changes detected"
+				print_info "Check the system diff above for user application changes"
+			fi
+		else
+			print_error "Need system generations to analyze home-manager changes"
+		fi
+	fi
+
+	# Get homebrew changes
+	if [[ $system_only != true ]]; then
+		print_section "Homebrew Changes"
+
+		if [[ ${#system_gens[@]} -eq 2 ]]; then
+			get_homebrew_changes "${system_gens[0]}" "${system_gens[1]}"
+		else
+			print_error "Need system generations to analyze Homebrew changes"
+		fi
+	fi
+
+	# Summary
+	print_section "Summary"
+
+	if [[ ${#system_gens[@]} -eq 2 ]]; then
+		print_success "Generation comparison completed!"
+		print_info "Legend: [U]pdated [A]dded [R]emoved"
+
+		echo ""
+		print_info "To rollback system: sudo /nix/var/nix/profiles/system/bin/switch-to-configuration --rollback"
+		print_info "To rollback home-manager: home-manager generations | head -2 | tail -1 | awk '{print \$7}' | xargs home-manager switch --flake"
+	else
+		print_error "No sufficient generations found for comparison"
+		print_info "Run 'nix run .#build-switch' to create new generations"
+	fi
+
+	echo ""
+	print_header "🎉 Diff Report Complete"
+}
+
+# Run main function
+main "$@"
