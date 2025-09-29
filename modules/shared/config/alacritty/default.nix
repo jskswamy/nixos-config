@@ -11,8 +11,8 @@
     };
 
     scrolling = {
-      history = 1000; # Very low since tmux handles session persistence
-      multiplier = 3;
+      history = 500; # Extremely aggressive for performance (was 1000)
+      multiplier = 1; # Reduce scroll sensitivity for smoother experience
     };
 
     window = {
@@ -21,11 +21,12 @@
         x = 24;
         y = 24;
       };
-      dynamic_padding = true;
-      decorations = "Buttonless";
-      blur = true;
+      dynamic_padding = false; # Static padding for better performance
+      decorations = "None"; # Remove decorations for fastest rendering
+      blur = false; # Disable blur for performance
       # Make Option key send Alt sequences on macOS
       option_as_alt = "Both";
+      resize_increments = true; # Resize by character grid for performance
     };
 
     font = {
@@ -50,6 +51,23 @@
       bindings = [
         # Additional key bindings can be added here if needed
       ];
+    };
+
+    # Performance and debug optimizations
+    debug = {
+      # GPU acceleration (replaces old renderer.backend)
+      renderer = "glsl3"; # Force modern OpenGL for best performance
+
+      # Performance optimizations
+      render_timer = false; # Disable debug render timer
+      print_events = false; # Disable event logging
+      log_level = "off"; # Disable all logging for performance (lowercase)
+    };
+
+    # Environment optimizations
+    env = {
+      TERM = "alacritty";
+      ALACRITTY_LOG = "/dev/null"; # Suppress all logging
     };
   };
 }
