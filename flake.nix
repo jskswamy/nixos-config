@@ -72,13 +72,8 @@
           check-merge-conflicts.enable = true;
           end-of-file-fixer.enable = true;
 
-          # Custom trailing whitespace hook
-          trailing-whitespace = {
-            enable = true;
-            entry = "${pkgs.python3}/bin/python -c 'import sys,re; [sys.exit(1) for line in sys.stdin if re.search(r\"\\s+$\", line)]'";
-            language = "system";
-            types = ["text"];
-          };
+          # Standard trailing whitespace fixer
+          trim-trailing-whitespace.enable = true;
 
           # Shell linting
           shellcheck.enable = true;
@@ -138,13 +133,8 @@
           check-merge-conflicts.enable = true;
           end-of-file-fixer.enable = true;
 
-          # Custom trailing whitespace hook
-          trailing-whitespace = {
-            enable = true;
-            entry = "${pkgs.python3}/bin/python -c 'import sys,re; [sys.exit(1) for line in sys.stdin if re.search(r\"\\s+$\", line)]'";
-            language = "system";
-            types = ["text"];
-          };
+          # Standard trailing whitespace fixer
+          trim-trailing-whitespace.enable = true;
 
           # Shell linting
           shellcheck.enable = true;
