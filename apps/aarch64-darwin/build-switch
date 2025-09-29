@@ -21,3 +21,16 @@ echo "${YELLOW}Cleaning up...${NC}"
 unlink ./result
 
 echo "${GREEN}Switch to new generation complete!${NC}"
+
+echo "${YELLOW}Showing generation differences...${NC}"
+# Run nix-diff to show what changed between the last two generations
+if command -v nix-diff >/dev/null 2>&1; then
+	nix-diff
+else
+	# Fallback to the script directly if not in PATH yet
+	if [ -f "/Users/$(whoami)/.local/bin/nix-diff" ]; then
+		"/Users/$(whoami)/.local/bin/nix-diff"
+	else
+		echo "${YELLOW}nix-diff not found - run it manually to see changes${NC}"
+	fi
+fi

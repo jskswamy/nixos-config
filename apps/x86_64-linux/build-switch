@@ -28,3 +28,16 @@ echo -e "${YELLOW}Starting...${NC}"
 sudo SSH_AUTH_SOCK=$SSH_AUTH_SOCK /run/current-system/sw/bin/nixos-rebuild switch --flake .#$FLAKE_TARGET $@
 
 echo -e "${GREEN}Switch to new generation complete!${NC}"
+
+echo -e "${YELLOW}Showing generation differences...${NC}"
+# Run nix-diff to show what changed between the last two generations
+if command -v nix-diff >/dev/null 2>&1; then
+    nix-diff
+else
+    # Fallback to the script directly if not in PATH yet
+    if [ -f "$HOME/.local/bin/nix-diff" ]; then
+        "$HOME/.local/bin/nix-diff"
+    else
+        echo -e "${YELLOW}nix-diff not found - run it manually to see changes${NC}"
+    fi
+fi
