@@ -113,7 +113,6 @@ with pkgs; [
   alacritty
   fish
   sesh
-  starship
   tmux
   tmuxp
   zellij

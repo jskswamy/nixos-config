@@ -114,8 +114,6 @@
       any-nix-shell fish | source
       # increase open file limit
       ulimit -S -n 16384
-      # starship prompt
-      source (/run/current-system/sw/bin/starship init fish --print-full-init | psub)
       # zoxide
       zoxide init fish | source
 

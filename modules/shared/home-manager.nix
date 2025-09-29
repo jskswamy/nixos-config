@@ -20,6 +20,8 @@ in {
 
   alacritty = import ./config/alacritty {inherit config pkgs lib user;};
 
+  starship = import ./config/starship {inherit config pkgs lib user;};
+
   gpg = import ./config/gpg {inherit config pkgs lib user;};
 
   ssh = import ./config/ssh {inherit config pkgs lib user;};

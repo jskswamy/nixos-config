@@ -24,10 +24,6 @@ in {
     source = ./config/tmux/conf.local;
   };
 
-  ".config/starship.toml" = {
-    source = ./config/starship/starship.toml;
-  };
-
   ".config/pet/config.toml" = {
     source = ./config/pet/config.toml;
   };
