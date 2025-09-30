@@ -1,24 +1,28 @@
 # display configuration
 theme = "Aura"
 
-# font configuration
+# font configuration - Enhanced for better rendering
 font-family = "MesloLGS NF"
 font-size = 14
 font-thicken = true
 bold-is-bright = true
+font-feature = -calt
+font-variation = wght=450
 
-# behavior
+# behavior - Performance optimized
 confirm-close-surface = false
 copy-on-select = clipboard
 unfocused-split-opacity = 0.7
 background-opacity = 1.0
-background-blur-radius = 20
-cursor-style-blink = true
+background-blur-radius = 0
+cursor-style-blink = false
+cursor-style = block
 maximize = true
+scrollback-limit = 10000
 
-# shell related tweaks
+# shell related tweaks - Enhanced for terminfo handling
 shell-integration = "fish"
-shell-integration-features = "cursor,title"
+shell-integration-features = "cursor,title,sudo"
 
 # macos specific tweaks
 macos-titlebar-style = "tabs"

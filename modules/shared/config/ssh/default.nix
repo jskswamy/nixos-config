@@ -17,6 +17,13 @@
     )
   ];
   matchBlocks = {
+    # Global fallback for terminal compatibility (including Ghostty)
+    "*" = {
+      setEnv = {
+        TERM = "xterm-256color"; # Universal fallback TERM value
+      };
+    };
+
     # Example SSH configuration for GitHub
     # "github.com" = {
     #   identitiesOnly = true;

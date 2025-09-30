@@ -42,6 +42,11 @@
     executable = true;
   };
 
+  ".local/bin/ghostty-terminfo" = {
+    source = ./scripts/ghostty-terminfo;
+    executable = true;
+  };
+
   # System utilities
   ".local/bin/search" = {
     source = ./scripts/search;
