@@ -185,7 +185,7 @@ in {
       {path = "/Applications/Arc.app/";}
       {path = "/System/Applications/Mail.app";}
       {path = "/System/Applications/Calendar.app/";}
-      {path = "/Applications/Nix Apps/Alacritty.app/";}
+      {path = "/Applications/Ghostty.app/";}
       {path = "/Applications/Capacities.app/";}
       {path = "/Applications/Things3.app/";}
       {path = "/System/Applications/Messages.app/";}
