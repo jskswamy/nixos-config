@@ -51,7 +51,6 @@ in {
     recursive = true;
   };
 
-  # Fish function files
   ".config/fish/functions" = {
     source = ./config/fish/functions;
     recursive = true;
@@ -68,5 +67,9 @@ in {
 
   ".local/share/wallpapers/islands-at-sunset.jpg" = {
     source = ./wallpapers/islands-at-sunset.jpg;
+  };
+
+  ".config/nbdime/config.json" = {
+    source = ./config/nbdime/config.json;
   };
 }
