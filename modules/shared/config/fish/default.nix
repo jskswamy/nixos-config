@@ -84,7 +84,7 @@
     set -gx GOPRIVATE source.golabs.io
     set -gx fzf_fd_opts --hidden --exclude=.git --exclude=node_modules
     set -gx UV_MANAGED_PYTHON true
-    set -gx FABRIC_COMMIT_PATTERN git_commit_message
+    set -gx FABRIC_COMMIT_PATTERN semantic_commit
 
     # PATH additions (use fish_add_path to avoid duplicates)
     fish_add_path -g $GOPATH/bin

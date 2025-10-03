@@ -72,4 +72,10 @@ in {
   ".config/nbdime/config.json" = {
     source = ./config/nbdime/config.json;
   };
+
+  # Fabric patterns
+  ".config/fabric/patterns" = {
+    source = ./config/fabric/patterns;
+    recursive = true;
+  };
 }
