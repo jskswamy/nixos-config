@@ -20,17 +20,13 @@ get_fabric_pattern() {
 
   # Separate arrays for descriptions and pattern names
   local descriptions=(
-    "Standard Git commit"
+    "Semantic Git commit"
     "Conventional commits"
-    "Project update summary"
-    "Technical diff summary"
   )
 
   local patterns=(
-    "git_commit_message"
-    "create_git_diff_commit"
-    "summarize_git_changes"
-    "summarize_git_diff"
+    "semantic_commit"
+    "conventional_commit"
   )
 
   # Let user select from descriptions
