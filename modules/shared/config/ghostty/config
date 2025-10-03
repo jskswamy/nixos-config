@@ -1,5 +1,5 @@
 # display configuration
-theme = "Aura"
+theme = "Gruvbox Dark"
 
 # font configuration - Enhanced for better rendering
 font-family = "MesloLGS NF"
