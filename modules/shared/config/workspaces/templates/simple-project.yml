@@ -1,0 +1,33 @@
+# Simple Project Template
+# Basic template for single-directory projects
+
+name: "{{workspace_name}}"
+description: "Simple single-project workspace"
+root: "{{workspace_root}}"
+
+# Environment variables template
+environment:
+  PROJECT_NAME: "{{project_name}}"
+  NODE_ENV: "development"
+
+# tmuxp session configuration
+tmuxp:
+  session_name: "{{workspace_name}}"
+  start_directory: "{{workspace_root}}"
+  windows:
+    - window_name: "main"
+      layout: "main-horizontal"
+      panes:
+        - shell_command: ["nvim", "."]
+        - shell_command: ["git", "status"]
+
+    - window_name: "terminal"
+      panes:
+        -  # Empty pane for general terminal use
+
+# Workspace folder structure
+folders:
+  - name: "main"
+    path: "."
+    type: "generic"
+    git: true

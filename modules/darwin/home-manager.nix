@@ -95,6 +95,11 @@ in {
       lib,
       ...
     }: {
+      # Import workspace management module
+      imports = [
+        ../shared/config/workspaces
+      ];
+
       home = {
         enableNixpkgsReleaseCheck = false;
         packages = pkgs.callPackage ./packages.nix {};

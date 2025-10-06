@@ -1,0 +1,53 @@
+# NixOS Configuration Template
+# Template for managing NixOS/nix-darwin configurations
+
+name: "{{workspace_name}}"
+description: "NixOS/nix-darwin configuration workspace"
+root: "{{workspace_root}}"
+
+# Environment variables template
+environment:
+  NIXOS_CONFIG: "{{workspace_root}}"
+  NIX_IGNORE_SYMLINK_STORE: "1"
+
+# tmuxp session configuration
+tmuxp:
+  session_name: "{{workspace_name}}"
+  start_directory: "{{workspace_root}}"
+  windows:
+    - window_name: "editor"
+      layout: "main-horizontal"
+      panes:
+        - shell_command: ["nvim", "."]
+        - shell_command: ["git", "status"]
+
+    - window_name: "build"
+      panes:
+        - shell_command: ["echo", "Ready for nix commands"]
+
+    - window_name: "docs"
+      start_directory: "{{workspace_root}}/docs"
+      panes:
+        - shell_command: ["echo", "Documentation workspace"]
+
+# Workspace folder structure
+folders:
+  - name: "modules"
+    path: "modules"
+    type: "nix"
+    git: true
+
+  - name: "hosts"
+    path: "hosts"
+    type: "nix"
+    git: true
+
+  - name: "secrets"
+    path: "secrets"
+    type: "encrypted"
+    git: true
+
+  - name: "docs"
+    path: "docs"
+    type: "markdown"
+    git: true

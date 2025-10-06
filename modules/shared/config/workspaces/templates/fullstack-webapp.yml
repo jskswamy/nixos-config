@@ -1,0 +1,63 @@
+# Fullstack Web Application Template
+# This template creates a workspace for React + Node.js projects
+
+name: "{{workspace_name}}"
+description: "Fullstack web application workspace"
+root: "{{workspace_root}}"
+
+# Environment variables template
+environment:
+  NODE_ENV: "development"
+  API_BASE_URL: "http://localhost:3001"
+  DATABASE_URL: "postgresql://localhost:5432/{{project_name}}"
+  PORT: "3000"
+  API_PORT: "3001"
+
+# tmuxp session configuration
+tmuxp:
+  session_name: "{{workspace_name}}"
+  start_directory: "{{workspace_root}}"
+  windows:
+    - window_name: "editor"
+      layout: "main-horizontal"
+      panes:
+        - shell_command: ["nvim", "."]
+        - shell_command: ["git", "status"]
+
+    - window_name: "frontend"
+      start_directory: "{{workspace_root}}/frontend"
+      panes:
+        - shell_command: ["npm", "run", "dev"]
+
+    - window_name: "backend"
+      start_directory: "{{workspace_root}}/backend"
+      panes:
+        - shell_command: ["npm", "run", "dev"]
+
+    - window_name: "tools"
+      layout: "even-horizontal"
+      panes:
+        - shell_command: ["git", "log", "--oneline", "-10"]
+        - shell_command: ["docker", "ps"]
+
+# Workspace folder structure
+folders:
+  - name: "frontend"
+    path: "frontend"
+    type: "react"
+    git: true
+
+  - name: "backend"
+    path: "backend"
+    type: "nodejs"
+    git: true
+
+  - name: "shared"
+    path: "shared"
+    type: "typescript"
+    git: true
+
+  - name: "docs"
+    path: "docs"
+    type: "markdown"
+    git: true

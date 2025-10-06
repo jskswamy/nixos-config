@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
+    sops-nix.url = "github:Mic92/sops-nix";
     darwin = {
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -44,6 +45,7 @@
     nixpkgs,
     disko,
     git-hooks,
+    sops-nix,
   } @ inputs: let
     user = "subramk";
     linuxSystems = ["x86_64-linux" "aarch64-linux"];
@@ -197,6 +199,13 @@
           specialArgs = inputs;
           modules = [
             home-manager.darwinModules.home-manager
+            {
+              home-manager = {
+                sharedModules = [
+                  sops-nix.homeManagerModules.sops
+                ];
+              };
+            }
             nix-homebrew.darwinModules.nix-homebrew
             {
               nix-homebrew = {

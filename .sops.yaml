@@ -1,0 +1,18 @@
+# SOPS configuration for nixos-config
+# This file defines encryption rules for different types of secrets
+
+keys:
+  - &yubikey_encrypt 17748589D970F86E
+
+creation_rules:
+  # Workspace configurations
+  - path_regex: secrets/workspaces/.*\.ya?ml$
+    key_groups:
+      - pgp:
+          - *yubikey_encrypt
+
+  # Other secrets (for future use)
+  - path_regex: secrets/.*\.ya?ml$
+    key_groups:
+      - pgp:
+          - *yubikey_encrypt
