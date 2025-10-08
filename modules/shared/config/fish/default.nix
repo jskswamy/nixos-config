@@ -75,6 +75,8 @@
     set -gx FZF_CTRL_T_COMMAND $find_source_code_command
     set -gx FZF_CTRL_T_OPTS "--preview 'bat --color always {} 2>/dev/null or cat -n {} || eza --color always -l --git --git-ignore {} 2>/dev/null || tree -C {} 2>/dev/null | head -200' --select-1 --exit-0"
     set -gx FZF_CTRL_R_OPTS "--sort --exact --preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview'"
+    # Gruvbox Material colors for FZF
+    set -gx FZF_DEFAULT_OPTS "--color=bg+:#3c3836,bg:#282828,border:#504945,spinner:#fb4934,hl:#928374,fg:#d5c4a1,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#d5c4a1,prompt:#fb4934,hl+:#fb4934"
     set -gx NIX_IGNORE_SYMLINK_STORE 1
     set -gx MANPAGER "bat -l man -p"
     set -gx DOCKER_HOST "unix:///Users/${user}/.colima/default/docker.sock"
@@ -106,6 +108,9 @@
 
     # Interactive-only hooks and tweaks
     if status --is-interactive
+      # Configure Gruvbox Material theme for fish
+      set -g theme_color_scheme gruvbox
+
       # jump
       source (jump shell fish | psub)
       # direnv

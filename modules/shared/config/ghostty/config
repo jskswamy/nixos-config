@@ -1,5 +1,5 @@
 # display configuration
-theme = "Gruvbox Dark"
+theme = "Gruvbox Material"
 
 # font configuration - Enhanced for better rendering
 font-family = "MesloLGS NF"
